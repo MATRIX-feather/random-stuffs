@@ -52,14 +52,7 @@ function main()
 
             #如果内容是die(结束脚本)
             if [ "${content}" == "${ENDCONTENT}" ];then
-                #移除URL文件
-                rm "${TARGETFILE}"
-
-                log "再见！"
-                removepid
-
-                #退出
-                exit 0
+                exit_gracefully
             fi
 
             if [[ "$content" == "http://"* ]] || [[  "$content" == "https://"* ]];then
