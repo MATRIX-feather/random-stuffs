@@ -1,0 +1,33 @@
+#!/bin/bash
+set -e
+
+readonly APPNAME="xanmod-load-anbox-module";
+readonly LOGPREFIX="[$APPNAME]"
+
+function log()
+{
+	echo "$LOGPREFIX $*"
+}
+
+if [ ! "$(whoami)" == "root" ];then
+	log "警告：没用root帐号?"
+fi;
+
+log "正在尝试载入组件"
+
+modprobe binder_linux
+modprobe ashmem_linux #Workaround: 直接modprobe binder_linux ashmem_linux可能会导致ashmem_linux没加载上
+
+if [ ! -d "/dev/binderfs" ];then
+	log "没找到/dev/binder，正在创建..."
+	mkdir /dev/binderfs;
+fi;
+
+
+log "挂载/dev/binder..."
+mount -t binder binder /dev/binderfs
+chmod 0755 /dev/binderfs
+
+ln /dev/binderfs /dev/binder -s
+
+log "成功！"

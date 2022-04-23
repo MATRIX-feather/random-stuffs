@@ -1,0 +1,93 @@
+#!/bin/bash
+#cd进脚本的目录
+realpath="$(dirname "$(readlink -f "$0")")"
+cd "${realpath}" || die 1 "无法cd到${realpath}"
+
+#shellcheck source=common
+source common
+
+#创建PID锁
+createpid
+
+#处理SIGTERM
+trap handle_term SIGTERM
+trap handle_term SIGINT
+
+#创建或清空URL文件
+true > "${TARGETFILE}" || true
+
+function handle_term()
+{
+    printf "\n"
+
+    log "检测到SIGTERM，正在退出..."
+    exit_gracefully
+}
+
+function exit_gracefully()
+{
+    log "再见！"
+
+    #移除URL文件
+    rm "${TARGETFILE}"    
+
+    #移除PID锁
+    removepid
+    
+    #退出
+    exit 0
+}
+
+function main()
+{
+    #region 文件检查
+    #检查URL是否存在
+    if [ -f "${TARGETFILE}" ];then
+        #获取内容
+        content="$(cat "${TARGETFILE}")"
+
+        #region 内容非空检查
+        if [ -n "${content}" ];then
+            log "从文件获取到内容：${content}"
+
+            #如果内容是die(结束脚本)
+            if [ "${content}" == "${ENDCONTENT}" ];then
+                #移除URL文件
+                rm "${TARGETFILE}"
+
+                log "再见！"
+                removepid
+
+                #退出
+                exit 0
+            fi
+
+            if [[ "$content" == "http://"* ]] || [[  "$content" == "https://"* ]];then
+                #打开URL
+                "${OPENCOMMAND}" "${content}" 2>&1 | log &
+            else
+                log "获取的内容不是HTTP网址"
+            fi;
+
+            #清空URL文件
+            true > "${TARGETFILE}"
+
+            #清空target变量
+            unset content
+        fi;
+        #endregion 内容非空检查
+    else
+        log "文件${TARGETFILE}不存在，将尝试重新创建..."
+        true > "${TARGETFILE}" || die 2 "无法创建URL文件${TARGETFILE}"
+    fi;
+    #endregion 文件检查
+}
+
+log "开始监测URL..."
+
+while true; do
+    main;
+
+    #暂停0.2秒
+    sleep 0.2;
+done

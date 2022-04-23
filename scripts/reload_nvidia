@@ -1,0 +1,144 @@
+#!/bin/bash
+APPNAME="$0"
+
+readonly ERR_NO_DIALOG=1
+readonly ERR_NOT_TERMINAL=2
+readonly ERR_ERROR_GENERIC=3
+
+LOG_OPTOUT="/dev/stderr"
+
+function die()
+{
+    local code="$1"
+    local reason="$2"
+
+    printf "%s\n" "$reason" > "$LOG_OPTOUT"
+    exit "$code"
+}
+
+#检查是否是终端，如果不是，是否有图形界面显示
+#都没有，则退出
+#不是终端但有图形界面，在新开的终端里运行
+#是终端，直接返回0
+function check_terminal()
+{
+    local dieWhenNotTerminal="${1:-"no"}"
+
+    #https://stackoverflow.com/questions/911168/how-to-detect-if-my-shell-script-is-running-through-a-pipe
+    #目前只需要检查stdout
+    if [ -t 1 ];then
+        printf "owo" > /dev/null
+        return 0
+    else
+        if [ "$dieWhenNotTerminal" == "yes" ];then
+            die $ERR_NOT_TERMINAL "不是终端?"
+        fi;
+
+        if [ "$DISPLAY" == "" ];then
+            die $ERR_NOT_TERMINAL "Not terminal"
+        fi;
+
+        x-terminal-emulator -e "$(readlink -f "$0")"&
+        return 1
+    fi
+}
+
+function info()
+{
+    local text="${1:-"???"}"
+
+    printf "[INFO ] %s\n" "$text" >> "$LOG_OPTOUT"
+}
+
+function warning()
+{
+    check_terminal "yes"
+
+    local text="$1"
+
+    printf "[WARN ] %s\n" "$text" >> "$LOG_OPTOUT"
+    "$dialog" --defaultno --yesno "$text" 0 0 #--title "$title" --backtitle "$APPNAME"
+    return $?
+}
+
+function error()
+{
+    local die="${1:-"yes"}"
+    local text="${2:-"发生了未知错误"}"
+
+    printf "[ERROR] %s\n" "$text" >> "$LOG_OPTOUT"
+
+    if [ "$die" == "yes" ];then
+        die $ERR_ERROR_GENERIC
+    fi;
+}
+
+function run()
+{
+    printf "[RUN  ] 运行：%s\n" "$*" >> "$LOG_OPTOUT"
+    $*
+
+    return $?
+}
+
+function main()
+{
+    if [ "x$CHECKED" != "xyes" ];then
+        if warning \
+"警告：接下来的操作将会注销您所有GUI会话\
+\n要继续吗？\
+\n\n\
+Warning: The next operation will log out all your GUI sessions\
+\nContinue? "\
+    ;then
+            cp "$(readlink -f "$0")" /tmp/reload_nvidia
+            chmod +x /tmp/reload_nvidia
+
+            pkexec bash -c '/tmp/reload_nvidia --checked & disown'
+        else
+            info "no"
+        fi
+
+    die 0
+    fi
+
+    run "sudo systemctl isolate multi-user.target"
+
+    info "检查nvidia内核模块"
+    run "lsmod | grep nvidia.drm"
+
+    info "卸载nvidia内核模块"
+    run "sudo modprobe -r nvidia-drm"
+    run "sudo rmmod nvidia_uvm nvidia"
+
+    info "再次检查nvidia内核模块"
+    run "lsmod | grep nvidia.drm"
+
+    info "通过nvidia-smi加载内核模块"
+    run "nvidia-smi"
+
+    info "启动图形会话"
+    run "sudo systemctl start graphical.target"
+
+    rm /tmp/reload_nvidia
+}
+
+if [ "$1" == "--checked" ];then
+    CHECKED="yes"
+    LOG_OPTOUT="/tmp/reload_nvidia.log"
+else
+    check_terminal no
+
+    #whiptail or dialog
+    #from https://unix.stackexchange.com/questions/64627/whiptail-or-dialog
+    read -r dialog <<< "$(which whiptail dialog 2> /dev/null)"
+
+    if [ "$dialog" == "" ];then
+        die $ERR_NO_DIALOG "未能找到dialog前端"
+    fi;
+
+fi
+
+true > "$LOG_OPTOUT"
+
+main

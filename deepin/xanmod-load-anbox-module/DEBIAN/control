@@ -1,0 +1,7 @@
+Package: xanmod-load-anbox-module
+Version: 0.0.3
+Architecture: all
+Maintainer: MATRIX-feather
+Priority: optional
+Homepage: https://github.com/MATRIX-feather
+Description: 启动时为UEngine(Anbox)加载Xanmod的Binder和Ashmem组件

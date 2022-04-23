@@ -1,0 +1,6 @@
+#!/bin/bash
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
+export __NV_PRIME_RENDER_OFFLOAD=1
+export MESA_VK_DEVICE_SELECT=GeForce
+export DXVK_FILTER_DEVICE_NAME=GeForce
+exec "$@"

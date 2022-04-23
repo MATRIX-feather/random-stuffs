@@ -1,0 +1,15 @@
+#!/bin/bash
+#cd进脚本的目录
+realpath="$(dirname "$(readlink -f "$0")")"
+cd "${realpath}" || die 1 "无法cd到${realpath}"
+
+#shellcheck source=common
+source common
+
+#移除NVIDIA Offload环境变量
+#避免Chrome无法激活硬件加速
+unset __GLX_VENDOR_LIBRARY_NAME
+unset __NV_PRIME_RENDER_OFFLOAD
+unset MESA_VK_DEVICE_SELECT
+
+./browserfix & disown

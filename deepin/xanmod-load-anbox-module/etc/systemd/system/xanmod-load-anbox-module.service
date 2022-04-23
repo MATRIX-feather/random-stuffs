@@ -1,0 +1,8 @@
+[Unit]
+Description=Load ashmem and binder on startup which is needed by uengine(anbox)
+
+[Service]
+ExecStart=/usr/bin/xanmod-load-anbox
+
+[Install]
+WantedBy=multi-user.target

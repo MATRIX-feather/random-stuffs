@@ -1,0 +1,19 @@
+#!/bin/bash
+set -e
+readonly APPNAME="xanmod-load-anbox-module"
+readonly LOGPREFIX="[$APPNAME]"
+
+function log()
+{
+	echo "$LOGPREFIX $*"
+}
+
+log "启用systemd服务..."
+systemctl enable xanmod-load-anbox-module.service
+
+log "启动systemd服务..."
+systemctl start xanmod-load-anbox-module.service || log "警告：服务启动失败"
+
+if [ "$?" == 0 ];then
+	log "...完成!"
+fi;
