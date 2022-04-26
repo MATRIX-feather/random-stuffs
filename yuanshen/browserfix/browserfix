@@ -13,9 +13,6 @@ createpid
 trap handle_term SIGTERM
 trap handle_term SIGINT
 
-#创建或清空URL文件
-true > "${TARGETFILE}" || true
-
 function handle_term()
 {
     printf "\n"
@@ -38,24 +35,27 @@ function exit_gracefully()
     exit 0
 }
 
+function clear_urlfile()
+{
+    true > "${TARGETFILE}"
+}
+
 function main()
 {
-    #region 文件检查
     #检查URL是否存在
     if [ -f "${TARGETFILE}" ];then
-        #获取内容
-        content="$(cat "${TARGETFILE}")"
+        #只获取4KB大小的内容，一般也不会有URL长到超过4KB吧...
+        content="$(head -c 4K "${TARGETFILE}")"
 
-        #region 内容非空检查
         if [ -n "${content}" ];then
-            log "从文件获取到内容：${content}"
+            log "从文件获取到内容：${content}";
 
             #如果内容是die(结束脚本)
             if [ "${content}" == "${ENDCONTENT}" ];then
                 exit_gracefully
             fi
 
-            if [[ "$content" == "http://"* ]] || [[  "$content" == "https://"* ]];then
+            if [[ "${content}" == "http://"* ]] || [[  "${content}" == "https://"* ]];then
                 #打开URL
                 "${OPENCOMMAND}" "${content}" 2>&1 | log &
             else
@@ -63,24 +63,51 @@ function main()
             fi;
 
             #清空URL文件
-            true > "${TARGETFILE}"
+            clear_urlfile
 
             #清空target变量
             unset content
         fi;
-        #endregion 内容非空检查
+
+        unset content
     else
         log "文件${TARGETFILE}不存在，将尝试重新创建..."
-        true > "${TARGETFILE}" || die 2 "无法创建URL文件${TARGETFILE}"
+        clear_urlfile || die "${RET_URLFILE_FAILED}" "无法创建URL文件${TARGETFILE}"
     fi;
-    #endregion 文件检查
 }
 
+#创建或清空URL文件
+clear_urlfile || true
 log "开始监测URL..."
 
-while true; do
-    main;
+#inotify
 
-    #暂停0.2秒
-    sleep 0.2;
+if [ -z "${INOTIFY}" ];then
+    readonly INOTIFY="inotifywait"
+fi;
+
+if [ "${USEINOTIFY}" == "1" ];then
+    log "将使用${INOTIFY}作为inotify..."
+    if ! which "${INOTIFY}" > /dev/null;then
+        die "${RET_DEPENDENCY_MISSING}" "缺少依赖：inotifywait"
+    fi
+
+    if [ ! "$(${INOTIFY} --help | head -n1 | cut -d ' ' -f1)" == "inotifywait" ];then
+        die "${RET_DEPENDENCY_MISSING}" "无法确定${INOTIFY}是有效的inotifywait"
+    fi
+fi
+
+log "警告：日志中输出的内容可能会包含您帐号的相关信息，请在分享出去前先检查一遍！"
+
+while true; do
+    if [ "${USEINOTIFY}" == "1" ];then
+        while "${INOTIFY}" -e close_write -e delete_self "${TARGETFILE}" > /dev/null 2>/dev/null;do
+            main
+        done
+    else
+        main;
+
+        #暂停0.2秒
+        sleep 0.2;
+    fi;
 done

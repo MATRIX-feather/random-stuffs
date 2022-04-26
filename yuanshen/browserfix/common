@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e;
 
+#脚本返回值定义
+#shellcheck source=returncodes
+source returncodes
+
 #文件前缀，用来防止和其他软件或脚本冲突
 readonly FILEPREFIX="ysbf" #YuanShenBrowserFix
 
@@ -21,19 +25,22 @@ readonly ENDCONTENT="die"
 #readonly LOGTARGET=""
 
 #应用名，用于区分各个脚本
+#不建议改变
 readonly APPNAME="$(basename "$(realpath "$0")")"
 
 #脚本PID
+#请勿改变
 readonly PID="$$"
 
 #脚本PID锁目标，可以用来确保一次只有一个实例
+#不建议改变
 readonly PIDLOCKTARGET="/dev/shm/${FILEPREFIX}-lock-${APPNAME}"
 
 #处理SIGTERM
 trap handle_term SIGTERM
 trap handle_term SIGINT
 
-#handle_term，可以被override
+#handle_term，可以被脚本override
 function handle_term()
 {
     log "再见！"
@@ -47,17 +54,21 @@ function log()
 
     echo "${msg}"
     if [ -n "$LOGTARGET" ];then
-        echo "${msg}" > "$LOGTARGET" || true;
+        echo "${msg}" >> "$LOGTARGET" || true;
     fi;
+
+    unset externalMsg
+    unset msg
 }
 
+#让函数只读
 readonly -f log
 
 function die()
 {
     local ret="$1"
     local reason="$2"
-    local msg="${APPNAME}脚本无法继续运行(${ret})，因为：${reason}"
+    local msg="${APPNAME}无法继续运行(${ret})，因为：${reason}"
     log "${msg}"
     exit "${ret}" || exit 255
 }
@@ -71,11 +82,13 @@ function createpid()
 
         #检查pid对应的进程是否存在
         if kill -s 0 "${content}" 2>/dev/null;then
-            die 3 "[createpid] 已经有另一个${APPNAME}的实例了(PID:{$content})，正在退出..."
+            die $RET_PLCREATE_FAILED "[createpid] 已经有另一个${APPNAME}的实例了(PID:{$content})"
         else
             log "[createpid] 设置${PIDLOCKTARGET}的进程(PID:${content})不存在？"
             log "[createpid] 默认它是被干了，正在写入新值"
         fi;
+
+        unset content
     fi;
 
     echo "${PID}" > "${PIDLOCKTARGET}"
@@ -89,11 +102,15 @@ function removepid()
         local content="$(cat "${PIDLOCKTARGET}")"
 
         if [ ! "${content}" == "$PID" ];then
-            die 4 "[removepid] ${PIDLOCKTARGET}中的PID信息(${content})和当前PID(${PID})不同"
+            die $RET_PLREMOVE_PIDMISMATCH "[removepid] ${PIDLOCKTARGET}中的PID信息(${content})和当前PID(${PID})不同"
         fi;
 
         rm "${PIDLOCKTARGET}"
-    fi;
+
+        unset content
+    else
+        log "[removepid] 未找到PID锁文件(${PIDLOCKTARGET})"
+    fi
 }
 
 readonly -f removepid

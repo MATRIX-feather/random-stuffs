@@ -1,0 +1,58 @@
+#!/bin/sh
+# postinst script for nvidia-dkms-470
+#
+# see: dh_installdeb(1)
+#
+# Copyright (C) 2007-2008 Mario Limonciello
+# Copyright (C) 2009 Canonical Ltd
+# Authors: Alberto Milone
+set -e
+
+PACKAGE_NAME=hid-playstation
+CVERSION=5.17
+CVERSION=${CVERSION#*really.}
+
+
+ARCH=`dpkg --print-architecture`
+case $ARCH in
+    amd64)
+        ARCH="x86_64"
+        ;;
+    #i386)
+    #    ARCH="i686"
+    #    ;;
+    #armhf)
+    #    ARCH="armhf"
+    #    ;;
+    *)
+        echo "WARNING: unsupported arch: $ARCH"
+        ARCH="$ARCH"
+        ;;
+esac
+
+case "$1" in
+    configure)
+        versionMain="$(uname -r | cut -d '.' -f1)"
+        versionSub="$(uname -r | cut -d '.' -f2)"
+
+        if [ "$versionMain" = "5" ] && [ "$versionSub" -gt "16" ];then
+            echo "[hid-playstation] 5.17及以上的内核已经集成hid-playstation了，不需要再重复构建"
+            echo "[hid-playstation] 将不会为此内核版本($(uname -r))构建"
+            return 0
+        fi;
+
+        # Build the kernel module
+        /usr/lib/dkms/common.postinst $PACKAGE_NAME $CVERSION /usr/share/$PACKAGE_NAME $ARCH $2
+        exit $?
+        ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+            echo "postinst called with unknown argument \`$1'" >&2
+            exit 1
+    ;;
+esac
+
+
