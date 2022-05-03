@@ -1,0 +1,63 @@
+#!/bin/bash
+#cd进脚本的目录
+realpath="$(dirname "$(readlink -f "$0")")"
+cd "${realpath}" || die 1 "无法cd到${realpath}"
+
+DISPLAYNAME="DeviceLost检测器"
+
+#shellcheck source=common
+source common
+
+#USEINOTIFY=1
+
+createpid
+checkinotify
+
+function handle_term()
+{
+    log "再见！"
+
+    removepid
+    exit 0
+}
+
+function main()
+{
+    tailOpt="$(tail -n1 "${TARGETFILE}")"
+
+    if [ -n "${tailOpt}" ];then
+        log "捕获到 ${tailOpt}"
+
+        #DxvkSubmissionQueue: Failed to sync fence: VK_ERROR_DEVICE_LOST
+        if echo "${tailOpt}" | grep "VK_ERROR_DEVICE_LOST" -q;then
+            zenity --info --text "原神(${EXEBASENAME}.exe)因 ${tailOpt} 崩溃，正在退出..."&
+            killall "${EXEBASENAME}".exe >/dev/null 2>/dev/null || true #die "${RET_GENERIC_FAILED}" "没有找到进程"
+        fi;
+
+        if [ "${tailOpt}" == "$ENDCONTENT" ];then
+            sed "s/${ENDCONTENT}//g" -i "${TARGETFILE}"
+            handle_term
+        fi
+
+    fi;
+
+    unset tailOpt
+}
+
+log "开始监测${TARGETFILE}"
+
+while true; do
+    if [ ! -f "${TARGETFILE}" ];then
+        die "${RET_URLFILE_FAILED}" "没有找到目标日志：${TARGETFILE}"
+    fi;
+
+    if [ "${USEINOTIFY}" == "1" ];then
+        while "${INOTIFY}" -e close_write "${TARGETFILE}" >/dev/null 2>/dev/null;do
+            main
+        done
+    else
+        main
+    
+        sleep 0.2;
+    fi
+done

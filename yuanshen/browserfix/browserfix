@@ -3,15 +3,16 @@
 realpath="$(dirname "$(readlink -f "$0")")"
 cd "${realpath}" || die 1 "无法cd到${realpath}"
 
+DISPLAYNAME="浏览器修复"
+
 #shellcheck source=common
 source common
 
 #创建PID锁
 createpid
 
-#处理SIGTERM
-trap handle_term SIGTERM
-trap handle_term SIGINT
+#检查inotify是否存在
+checkinotify
 
 function handle_term()
 {
@@ -79,23 +80,6 @@ function main()
 #创建或清空URL文件
 clear_urlfile || true
 log "开始监测URL..."
-
-#inotify
-
-if [ -z "${INOTIFY}" ];then
-    readonly INOTIFY="inotifywait"
-fi;
-
-if [ "${USEINOTIFY}" == "1" ];then
-    log "将使用${INOTIFY}作为inotify..."
-    if ! which "${INOTIFY}" > /dev/null;then
-        die "${RET_DEPENDENCY_MISSING}" "缺少依赖：inotifywait"
-    fi
-
-    if [ ! "$(${INOTIFY} --help | head -n1 | cut -d ' ' -f1)" == "inotifywait" ];then
-        die "${RET_DEPENDENCY_MISSING}" "无法确定${INOTIFY}是有效的inotifywait"
-    fi
-fi
 
 log "警告：日志中输出的内容可能会包含您帐号的相关信息，请在分享出去前先检查一遍！"
 

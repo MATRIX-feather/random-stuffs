@@ -1,0 +1,175 @@
+#!/bin/bash
+set -e;
+
+#应用名，用于区分各个脚本
+#不建议改变
+APPNAME="$(basename "$(realpath "$0")")"
+readonly APPNAME
+
+readonly DISPLAYNAME="${DISPLAYNAME:-$APPNAME}"
+
+#脚本PID
+#请勿改变
+readonly PID="$$"
+
+#应用设置前先source一遍其他的common文件
+appPath="$(dirname "$(readlink -f "$0")")"
+source "${appPath}"/*.common || true
+unset appPath
+
+#文件前缀，用来防止和其他软件或脚本冲突
+readonly FILEPREFIX="${FILEPREFIX:-${APPNAME}}" #YuanShenBrowserFix
+
+#打开URL时使用的指令，具体调用是：$OPENCOMMAND <URL>
+readonly OPENCOMMAND="${OPENCOMMAND:-xdg-open}"
+
+#目标用户名，用来防止多用户冲突
+readonly USERNAME="${USERNAME:-$(whoami)}"
+
+#目标URL文件，browserfix会读取其中的信息
+readonly TARGETFILE="${TARGETFILE:-/dev/shm/${FILEPREFIX}-url-${USERNAME}}"
+
+#结束内容，当browserfix读取的内容和这里一致时将退出
+readonly ENDCONTENT="${ENDCONTENT:-die}"
+
+#记录目标，如果非空，则当log被调用时也会向目标位置输出一份一样的日志
+#照理说在这里设置和在外面设置环境变量的效果是一样的，但我更建议设置环境变量
+readonly LOGTARGET="${LOGTARGET:-/dev/shm/${FILEPREFIX}-log-${USERNAME}-${APPNAME}}"
+
+readonly LOGTOFILE="${LOGTOFILE:-false}"
+
+#脚本PID锁目标，可以用来确保一次只有一个实例
+readonly PIDLOCKTARGET="/dev/shm/${FILEPREFIX}-lock-${APPNAME}"
+
+#处理SIGTERM
+trap handle_term SIGTERM
+trap handle_term SIGINT
+
+#handle_term，可以被脚本override
+function handle_term()
+{
+    log "再见！"
+    exit 0
+}
+
+function log()
+{
+    local externalMsg="$*";
+    local msg="[${PID} ${DISPLAYNAME}] [$(date "+%Y-%m-%d %H:%M:%S")] ${externalMsg}"
+
+    if [ "${LOGTOFILE}" == "true" ];then
+        echo "${msg}" >> "${LOGTARGET}" || true;
+    else
+        echo "${msg}"
+    fi
+
+    unset externalMsg
+    unset msg
+}
+
+#让函数只读
+readonly -f log
+
+function die()
+{
+    local ret="$1"
+    local reason="$2"
+    local msg="${DISPLAYNAME}(${APPNAME})无法继续运行(${ret})，因为：${reason}"
+    log "${msg}"
+    exit "${ret}" || exit 255
+}
+
+readonly -f die
+
+function createpid()
+{
+    if [ -f "${PIDLOCKTARGET}" ];then
+        local content
+        content="$(cat "${PIDLOCKTARGET}")"
+
+        #检查pid对应的进程是否存在
+        if kill -s 0 "${content}" 2>/dev/null;then
+            die "${RET_PLCREATE_FAILED}" "[createpid] 已经有另一个${APPNAME}的实例了(PID:${content})"
+        else
+            log "[createpid] 设置${PIDLOCKTARGET}的进程(PID:${content})不存在？"
+            log "[createpid] 默认它是被干了，正在写入新值"
+        fi;
+
+        unset content
+    fi;
+
+    echo "${PID}" > "${PIDLOCKTARGET}"
+}
+
+readonly -f createpid
+
+function removepid()
+{
+    if [ -f "${PIDLOCKTARGET}" ];then
+        local content
+        content="$(cat "${PIDLOCKTARGET}")"
+
+        if [ ! "${content}" == "$PID" ];then
+            die "${RET_PLREMOVE_PIDMISMATCH}" "[removepid] ${PIDLOCKTARGET}中的PID信息(${content})和当前PID(${PID})不同"
+        fi;
+
+        rm "${PIDLOCKTARGET}"
+
+        unset content
+    else
+        log "[removepid] 未找到PID锁文件(${PIDLOCKTARGET})"
+    fi
+}
+
+readonly -f removepid
+
+#INOTIFY=""
+INOTIFY_SUPPORTED=false
+
+function checkinotify()
+{
+    if [ "${USEINOTIFY}" == "1" ];then
+        if [ -z "${INOTIFY}" ];then
+            readonly INOTIFY="inotifywait"
+        fi;
+
+        log "将使用${INOTIFY}作为inotify命令..."
+        if ! which "${INOTIFY}" > /dev/null;then
+            die "${RET_DEPENDENCY_MISSING}" "缺少依赖：inotifywait"
+        fi
+
+        if [ ! "$(${INOTIFY} --help | head -n1 | cut -d ' ' -f1)" == "inotifywait" ];then
+            die "${RET_DEPENDENCY_MISSING}" "无法确定${INOTIFY}是有效的inotifywait"
+        fi
+
+        INOTIFY_SUPPORTED=true
+    fi
+}
+
+readonly -f checkinotify
+
+#获取returnValues
+function sourceReturnCodes()
+{
+    if [ "$0" == "${BASH_SOURCE}" ];then
+        log "${APPNAME}不能作为脚本执行"
+        exit 255
+    fi;
+
+    local commonPath
+    commonPath="$(dirname "$(readlink -f "${BASH_SOURCE}")")"
+
+    #脚本返回值定义
+    #shellcheck source=returncodes
+    source "${commonPath}/returncodes"
+
+    unset commonPath
+    unset sourceReturnCodes
+}
+
+sourceReturnCodes
+
+#初始化LOG文件
+if [ "${LOGTOFILE}" == "true" ];then
+    log "---------- PID为${PID}的${DISPLAYNAME}(${APPNAME})于$(date "+%Y-%m-%d %H:%M:%S")启动"  >> "${LOGTARGET}"
+fi

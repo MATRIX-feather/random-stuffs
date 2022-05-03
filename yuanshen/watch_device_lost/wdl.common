@@ -1,0 +1,4 @@
+#!/bin/bash
+readonly EXEBASENAME="YuanShen"
+TARGETFILE="${DXVK_LOG_PATH:-/dev/shm}/./${EXEBASENAME}_d3d11.log"
+ENDCONTENT="WDLEND"

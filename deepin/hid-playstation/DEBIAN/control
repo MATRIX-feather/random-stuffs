@@ -1,7 +1,0 @@
-Package: hid-playstation-dkms
-Version: 5.17.4
-Architecture: all
-Maintainer: nobody
-Priority: optional
-Homepage: _
-Description: HID playstation from 5.17

@@ -1,26 +1,4 @@
 # deepin
-## hid-playstation
-为5.17以下内核的deepin提供PS5手柄支持。
-
-源码来自于[这里](https://github.com/xanmod/linux/blob/48d2efc7eb86fba378aa7e11b82e7f3a22ef1d2e/drivers/hid/hid-playstation.c)
-
-在这里打开终端，然后：
-```Bash
-#设置文件权限
-chmod g-w hid-playstation/usr -R
-
-sudo chown root:root hid-playstation/usr -R
-
-#打成软件包
-dpkg -b ./hid-playstation
-
-#安装！
-sudo apt install ./hid-playstation.deb
-```
-
-## NVIDIA Offload
-
-
 ## xanmod内核相关
 ### NVIDIA闭源驱动dkms报IGNORE_CC_MISMATCH
 编辑`/usr/src/nvidia-current/conftest.sh`，在第9行`CC="$1"`前加上`IGNORE_CC_MISMATCH=1`

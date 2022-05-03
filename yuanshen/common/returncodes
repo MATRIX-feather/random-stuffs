@@ -17,3 +17,6 @@ readonly RET_PLREMOVE_PIDMISMATCH=4
 
 #缺少依赖
 readonly RET_DEPENDENCY_MISSING=5
+
+#发生异常
+readonly RET_GENERIC_FAILED=10

@@ -1,0 +1,24 @@
+#!/bin/bash
+#cd进脚本的目录
+realpath="$(dirname "$(readlink -f "$0")")"
+cd "${realpath}" || die 1 "无法cd到${realpath}"
+
+source common/common
+
+for rd in ${PWD}/*;do
+    if [ -d "$rd" ];then
+        #log "D: $rd"
+        d="$rd"
+
+        for f in "$d"/start*;do
+            if [ "$f" == "$d/start*" ];then
+                log "SKIP:$f"
+                continue
+            fi
+
+            #log "F: $f"
+            log "正在启动$f"
+            "$f" & disown;
+        done;
+    fi;
+done;
