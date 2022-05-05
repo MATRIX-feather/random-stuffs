@@ -2,10 +2,25 @@
 set -e;
 
 #应用名，用于区分各个脚本
-#不建议改变
-APPNAME="$(basename "$(realpath "$0")")"
+APPNAME="$(basename "$(readlink -f "$0")")"
+
+#如果APPNAME是空的，则从basename获取
+if [ -z "${APPNAME}" ];then
+    #尝试realpath
+    APPNAME="$(basename "$(realpath "$(basename "$0")")")"
+
+    #如果还是空的，fallback到basename
+    if [ -z "${APPNAME}" ];then
+        APPNAME="$(basename "$0")"
+    fi
+
+    echo "无法获取 $0 的APPNAME，将后退至${APPNAME}"
+    echo "\$0: $0 | readlink: $(readlink -f "$0") | basename: $(basename "$0") | PWD: ${PWD}"
+fi;
+
 readonly APPNAME
 
+#脚本显示名称，用于在日志中显示
 readonly DISPLAYNAME="${DISPLAYNAME:-$APPNAME}"
 
 #脚本PID
@@ -13,9 +28,12 @@ readonly DISPLAYNAME="${DISPLAYNAME:-$APPNAME}"
 readonly PID="$$"
 
 #应用设置前先source一遍其他的common文件
-appPath="$(dirname "$(readlink -f "$0")")"
-source "${appPath}"/*.common || true
-unset appPath
+APPPATH="$(dirname "$(readlink -f "$0")")"
+readonly APPPATH
+
+cd "${APPPATH}"
+
+source "${APPPATH}"/*.common || true
 
 #文件前缀，用来防止和其他软件或脚本冲突
 readonly FILEPREFIX="${FILEPREFIX:-${APPNAME}}" #YuanShenBrowserFix
@@ -36,10 +54,18 @@ readonly ENDCONTENT="${ENDCONTENT:-die}"
 #照理说在这里设置和在外面设置环境变量的效果是一样的，但我更建议设置环境变量
 readonly LOGTARGET="${LOGTARGET:-/dev/shm/${FILEPREFIX}-log-${USERNAME}-${APPNAME}}"
 
+#是否转移日志输出到文件
 readonly LOGTOFILE="${LOGTOFILE:-false}"
+
+#要记录哪些日志到文件，用APPNAME作为判断
+readonly LOGNAMES="${LOGNAMES:-*}"
+
+#是否可以记录日志到文件，通过LOGNAMES判断
+CANLOGTOFILE=false;
 
 #脚本PID锁目标，可以用来确保一次只有一个实例
 readonly PIDLOCKTARGET="/dev/shm/${FILEPREFIX}-lock-${APPNAME}"
+
 
 #处理SIGTERM
 trap handle_term SIGTERM
@@ -55,9 +81,9 @@ function handle_term()
 function log()
 {
     local externalMsg="$*";
-    local msg="[${PID} ${DISPLAYNAME}] [$(date "+%Y-%m-%d %H:%M:%S")] ${externalMsg}"
+    local msg="[$(date "+%Y-%m-%d %H:%M:%S")] [${PID}/${DISPLAYNAME}]: ${externalMsg}"
 
-    if [ "${LOGTOFILE}" == "true" ];then
+    if [ "${LOGTOFILE}" == "true" ] && [ "${CANLOGTOFILE}" == "true" ];then
         echo "${msg}" >> "${LOGTARGET}" || true;
     else
         echo "${msg}"
@@ -169,7 +195,26 @@ function sourceReturnCodes()
 
 sourceReturnCodes
 
+function checkLogName()
+{
+    if [ "${LOGNAMES}" == "*" ];then
+        CANLOGTOFILE=true;
+    else
+        for n in ${LOGNAMES}; do
+            if [ "${APPNAME}" == "$n" ];then
+                CANLOGTOFILE=true
+                break
+            fi;
+        done;
+    fi;
+
+    readonly CANLOGTOFILE;
+    unset checkLogName;
+}
+
+checkLogName
+
 #初始化LOG文件
 if [ "${LOGTOFILE}" == "true" ];then
-    log "---------- PID为${PID}的${DISPLAYNAME}(${APPNAME})于$(date "+%Y-%m-%d %H:%M:%S")启动"  >> "${LOGTARGET}"
+    log "PID为${PID}的${DISPLAYNAME}(${APPNAME})于$(date "+%Y-%m-%d %H:%M:%S")启动"
 fi

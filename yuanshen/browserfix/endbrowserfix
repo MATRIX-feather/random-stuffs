@@ -1,9 +1,5 @@
 #!/bin/bash
-#cd进脚本的目录
-realpath="$(dirname "$(readlink -f "$0")")"
-cd "${realpath}" || die 1 "无法cd到${realpath}"
-
 #shellcheck source=common
-source common
+source "$(dirname "$(readlink -f "$0")")/common"
 
 echo "$ENDCONTENT" > "$TARGETFILE"

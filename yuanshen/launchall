@@ -1,9 +1,6 @@
 #!/bin/bash
 #cd进脚本的目录
-realpath="$(dirname "$(readlink -f "$0")")"
-cd "${realpath}" || die 1 "无法cd到${realpath}"
-
-source common/common
+source "$(dirname "$(readlink -f "$0")")/common/common"
 
 for rd in ${PWD}/*;do
     if [ -d "$rd" ];then
@@ -12,7 +9,7 @@ for rd in ${PWD}/*;do
 
         for f in "$d"/start*;do
             if [ "$f" == "$d/start*" ];then
-                log "SKIP:$f"
+                #log "SKIP:$f"
                 continue
             fi
 

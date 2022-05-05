@@ -1,12 +1,8 @@
 #!/bin/bash
-#cd进脚本的目录
-realpath="$(dirname "$(readlink -f "$0")")"
-cd "${realpath}" || die 1 "无法cd到${realpath}"
-
 DISPLAYNAME="DeviceLost检测器"
 
 #shellcheck source=common
-source common
+source "$(dirname "$(readlink -f "$0")")/common"
 
 #USEINOTIFY=1
 
@@ -48,7 +44,8 @@ log "开始监测${TARGETFILE}"
 
 while true; do
     if [ ! -f "${TARGETFILE}" ];then
-        die "${RET_URLFILE_FAILED}" "没有找到目标日志：${TARGETFILE}"
+        log "没有找到目标日志：${TARGETFILE}，正在创建..."
+        touch "${TARGETFILE}"
     fi;
 
     if [ "${USEINOTIFY}" == "1" ];then

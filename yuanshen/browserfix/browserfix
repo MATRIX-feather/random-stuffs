@@ -1,12 +1,8 @@
 #!/bin/bash
-#cd进脚本的目录
-realpath="$(dirname "$(readlink -f "$0")")"
-cd "${realpath}" || die 1 "无法cd到${realpath}"
-
 DISPLAYNAME="浏览器修复"
 
 #shellcheck source=common
-source common
+source "$(dirname "$(readlink -f "$0")")/common"
 
 #创建PID锁
 createpid
