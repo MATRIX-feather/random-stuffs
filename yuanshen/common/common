@@ -120,7 +120,14 @@ function createpid()
 
         #检查pid对应的进程是否存在
         if kill -s 0 "${content}" 2>/dev/null;then
-            die "${RET_PLCREATE_FAILED}" "[createpid] 已经有另一个${APPNAME}的实例了(PID:${content})"
+            #如果存在
+            if [ "${content}" == "${PID}" ];then
+                #实例就是本体
+                log "已经是${DISPLAYNAME}的主实例了"
+            else
+                #存在另一个实例，退出
+                die "${RET_PLCREATE_FAILED}" "[createpid] 已经有另一个${APPNAME}的实例了(PID:${content})"
+            fi;
         else
             log "[createpid] 设置${PIDLOCKTARGET}的进程(PID:${content})不存在？"
             log "[createpid] 默认它是被干了，正在写入新值"
