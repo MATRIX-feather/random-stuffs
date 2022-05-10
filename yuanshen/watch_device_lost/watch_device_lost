@@ -49,7 +49,7 @@ while true; do
     fi;
 
     if [ "${USEINOTIFY}" == "1" ];then
-        while "${INOTIFY}" -e close_write "${TARGETFILE}" >/dev/null 2>/dev/null;do
+        while "${INOTIFY}" -e modify "${TARGETFILE}" >/dev/null 2>/dev/null;do
             main
         done
     else
