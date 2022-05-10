@@ -33,7 +33,7 @@ readonly APPPATH
 
 cd "${APPPATH}"
 
-source "${APPPATH}"/*.common || true
+source "${APPPATH}"/*.common 2>/dev/null || true
 
 #文件前缀，用来防止和其他软件或脚本冲突
 readonly FILEPREFIX="${FILEPREFIX:-${APPNAME}}" #YuanShenBrowserFix
@@ -61,11 +61,16 @@ readonly LOGTOFILE="${LOGTOFILE:-false}"
 readonly LOGNAMES="${LOGNAMES:-*}"
 
 #是否可以记录日志到文件，通过LOGNAMES判断
-CANLOGTOFILE=false;
+CANLOGTOFILE=false
 
 #脚本PID锁目标，可以用来确保一次只有一个实例
 readonly PIDLOCKTARGET="/dev/shm/${FILEPREFIX}-lock-${APPNAME}"
 
+#是否自动在终端打开脚本
+readonly AUTOTERMINAL="${AUTOTERMINAL:-false}"
+
+#是否为终端
+ISTERMINAL=false
 
 #处理SIGTERM
 trap handle_term SIGTERM
@@ -218,3 +223,31 @@ checkLogName
 if [ "${LOGTOFILE}" == "true" ];then
     log "PID为${PID}的${DISPLAYNAME}(${APPNAME})于$(date "+%Y-%m-%d %H:%M:%S")启动"
 fi
+
+function checkTerminal()
+{
+    #https://stackoverflow.com/questions/911168/how-to-detect-if-my-shell-script-is-running-through-a-pipe
+    #目前只需要检查stdout
+    if [ -t 1 ];then
+        ISTERMINAL=true
+    else
+        ISTERMINAL=false
+
+        if [ "${AUTOTERMINAL}" ];then
+            if [ -z "$DISPLAY" ];then
+                echo "没有设置环境变量DISPLAY，没法打开终端:(" >> "A_${APPNAME}_ERROR"
+                die 255 "没有设置DISPLAY" >&2
+            fi;
+
+            #移除pid以避免相关问题
+            removepid
+            x-terminal-emulator -e "$(readlink -f "$0") $*" & disown
+            die 0 "已在新终端中打开脚本" >&2
+        fi;
+    fi
+
+    readonly ISTERMINAL
+    unset checkTerminal
+}
+
+checkTerminal "$@"
