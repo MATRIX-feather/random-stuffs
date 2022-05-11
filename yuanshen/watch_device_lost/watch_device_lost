@@ -37,6 +37,9 @@ function main()
     unset tailOpt
 }
 
+#文件里可能有WDLEND,事先替换
+sed "s/${ENDCONTENT}//g" -i "${TARGETFILE}"
+
 log "开始监测${TARGETFILE}"
 
 while true; do
