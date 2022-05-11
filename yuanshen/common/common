@@ -98,13 +98,37 @@ readonly -f handle_term
 
 function log()
 {
+    local level="$1"
+    local lcolor="";
+
+    if ! [[ "${level}" == L* ]];then
+        level="LINFO"
+    else
+        shift;
+    fi
+
+    case "${level}" in
+        "LINFO")
+            lcolor="${C_INFO}"
+            level="INFO"
+        ;;
+        "LWARN")
+            lcolor="${C_WARN}"
+            level="WARN"
+        ;;
+        "LERRO")
+            lcolor="${C_ERRO}"
+            level="ERRO"
+        ;;
+    esac
+
     local externalMsg="$*";
-    local msg="[$(date "+%Y-%m-%d %H:%M:%S")] [${PID}/${DISPLAYNAME}]: ${externalMsg}"
+    local msg="[$(date "+%Y-%m-%d %H:%M:%S")] [${level}] [${PID}/${DISPLAYNAME}]: ${externalMsg}"
 
     if [ "${LOGTOFILE}" == "true" ] && [ "${CANLOGTOFILE}" == "true" ];then
-        echo "${msg}" >> "${LOGTARGET}" || true;
+        printf "${msg}\n" >> "${LOGTARGET}" || true;
     else
-        echo "${msg}"
+        printf "${lcolor}${msg}${C_RESET}\n"
     fi
 
     unset externalMsg
@@ -119,7 +143,7 @@ function die()
     local ret="$1"
     local reason="$2"
     local msg="${DISPLAYNAME}(${APPNAME})无法继续运行(${ret})，因为：${reason}"
-    log "${msg}"
+    log LERRO "${msg}"
     exit "${ret}" || exit 255
 }
 
@@ -213,6 +237,8 @@ function sourceReturnCodes()
     #脚本返回值定义
     #shellcheck source=returncodes
     source "${commonPath}/returncodes"
+
+    source "${commonPath}/colors"
 
     unset commonPath
     unset sourceReturnCodes
