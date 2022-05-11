@@ -12,11 +12,6 @@ checkinotify
 
 function on_term()
 {
-    exit_gracefully
-}
-
-function exit_gracefully()
-{
     #移除URL文件
     rm "${TARGETFILE}"    
 
@@ -41,7 +36,7 @@ function main()
 
             #如果内容是die(结束脚本)
             if [ "${content}" == "${ENDCONTENT}" ];then
-                exit_gracefully
+                handle_term
             fi
 
             if [[ "${content}" == "http://"* ]] || [[  "${content}" == "https://"* ]];then
