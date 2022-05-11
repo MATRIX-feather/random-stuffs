@@ -10,26 +10,13 @@ createpid
 #检查inotify是否存在
 checkinotify
 
-function handle_term()
+function on_term()
 {
-    printf "\n"
-
-    log "检测到SIGTERM，正在退出..."
-    exit_gracefully
-}
-
-function exit_gracefully()
-{
-    log "再见！"
-
     #移除URL文件
     rm "${TARGETFILE}"    
 
     #移除PID锁
     removepid
-    
-    #退出
-    exit 0
 }
 
 function clear_urlfile()
@@ -49,7 +36,7 @@ function main()
 
             #如果内容是die(结束脚本)
             if [ "${content}" == "${ENDCONTENT}" ];then
-                exit_gracefully
+                handle_term
             fi
 
             if [[ "${content}" == "http://"* ]] || [[  "${content}" == "https://"* ]];then

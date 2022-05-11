@@ -9,12 +9,9 @@ source "$(dirname "$(readlink -f "$0")")/common"
 createpid
 checkinotify
 
-function handle_term()
+function on_term()
 {
-    log "再见！"
-
     removepid
-    exit 0
 }
 
 function main()
@@ -47,6 +44,9 @@ while true; do
         log "没有找到目标日志：${TARGETFILE}，正在创建..."
         touch "${TARGETFILE}"
     fi;
+
+    #文件里可能有WDLEND,事先替换
+    sed "s/${ENDCONTENT}//g" -i "${TARGETFILE}"
 
     if [ "${USEINOTIFY}" == "1" ];then
         while "${INOTIFY}" -e modify "${TARGETFILE}" >/dev/null 2>/dev/null;do
