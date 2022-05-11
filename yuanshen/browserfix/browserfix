@@ -55,7 +55,7 @@ function main()
 
         unset content
     else
-        log "文件${TARGETFILE}不存在，将尝试重新创建..."
+        log LWARN "文件${TARGETFILE}不存在，将尝试重新创建..."
         clear_urlfile || die "${RET_URLFILE_FAILED}" "无法创建URL文件${TARGETFILE}"
     fi;
 }
@@ -64,7 +64,7 @@ function main()
 clear_urlfile || true
 log "开始监测URL..."
 
-log "警告：日志中输出的内容可能会包含您帐号的相关信息，请在分享出去前先检查一遍！"
+log LWARN "警告：日志中输出的内容可能会包含您帐号的相关信息，请在分享出去前先检查一遍！"
 
 while true; do
     if [ "${USEINOTIFY}" == "1" ];then

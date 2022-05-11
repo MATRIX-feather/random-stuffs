@@ -149,6 +149,12 @@ function die()
 
 readonly -f die
 
+function checkForPid()
+{
+    kill -s 0 "$1" >/dev/null 2>/dev/null
+    return "$?"
+}
+
 function createpid()
 {
     if [ -f "${PIDLOCKTARGET}" ];then
@@ -156,18 +162,18 @@ function createpid()
         content="$(cat "${PIDLOCKTARGET}")"
 
         #检查pid对应的进程是否存在
-        if kill -s 0 "${content}" 2>/dev/null;then
+        if checkForPid "${content}";then
             #如果存在
             if [ "${content}" == "${PID}" ];then
                 #实例就是本体
-                log "已经是${DISPLAYNAME}的主实例了"
+                log LERRO "已经是${DISPLAYNAME}的主实例了"
             else
                 #存在另一个实例，退出
-                die "${RET_PLCREATE_FAILED}" "[createpid] 已经有另一个${APPNAME}的实例了(PID:${content})"
+                die "${RET_PLCREATE_FAILED}" "已经有另一个${APPNAME}的实例了(PID:${content})"
             fi;
         else
-            log "[createpid] 设置${PIDLOCKTARGET}的进程(PID:${content})不存在？"
-            log "[createpid] 默认它是被干了，正在写入新值"
+            log LWARN "设置${PIDLOCKTARGET}的进程(PID:${content})不存在？"
+            log LWARN "将写入新值..."
         fi;
 
         unset content
@@ -185,14 +191,18 @@ function removepid()
         content="$(cat "${PIDLOCKTARGET}")"
 
         if [ ! "${content}" == "$PID" ];then
-            die "${RET_PLREMOVE_PIDMISMATCH}" "[removepid] ${PIDLOCKTARGET}中的PID信息(${content})和当前PID(${PID})不同"
+            #检查对应进程是否存在
+            if checkForPid "${content}";then
+                #如果存在
+                die "${RET_PLREMOVE_PIDMISMATCH}" "${PIDLOCKTARGET}中的PID信息(${content})和当前PID(${PID})不同"
+            fi
         fi;
 
         rm "${PIDLOCKTARGET}"
 
         unset content
     else
-        log "[removepid] 未找到PID锁文件(${PIDLOCKTARGET})"
+        log LWARN "未找到PID锁文件(${PIDLOCKTARGET})"
     fi
 }
 

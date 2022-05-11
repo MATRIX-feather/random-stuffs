@@ -44,12 +44,9 @@ log "开始监测${TARGETFILE}"
 
 while true; do
     if [ ! -f "${TARGETFILE}" ];then
-        log "没有找到目标日志：${TARGETFILE}，正在创建..."
+        log LWARN "没有找到目标日志：${TARGETFILE}，正在创建..."
         touch "${TARGETFILE}"
     fi;
-
-    #文件里可能有WDLEND,事先替换
-    sed "s/${ENDCONTENT}//g" -i "${TARGETFILE}"
 
     if [ "${USEINOTIFY}" == "1" ];then
         while "${INOTIFY}" -e modify "${TARGETFILE}" >/dev/null 2>/dev/null;do
