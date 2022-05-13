@@ -2,7 +2,13 @@
 set -e;
 
 #应用名，用于区分各个脚本
-APPNAME="$(basename "$(readlink -f "$0")")"
+declare APPNAME
+
+if [ "${APPNAMENOREADLINK}" == "true" ];then
+    APPNAME="$(basename "$0")"
+else
+    APPNAME="$(basename "$(readlink -f "$0")")"
+fi;
 
 #如果APPNAME是空的，则从basename获取
 if [ -z "${APPNAME}" ];then

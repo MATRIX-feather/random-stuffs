@@ -1,0 +1,17 @@
+#!/bin/bash
+declare NORMOPTIONS
+NORMOPTIONS="$(setxkbmap -query | tail -n1 | cut -f2- -d ':')"
+NORMOPTIONS="${NORMOPTIONS// /}"
+
+function setxkb()
+{
+    setxkbmap -option ""
+    setxkbmap -option "$@"
+}
+
+setxkb "grab:break_actions"
+xdotool key XF86Ungrab
+
+dbus-send --type=method_call --dest=org.gnome.Shell /org/gnome/Shell org.gnome.Shell.FocusSearch || true
+
+setxkb "${NORMOPTIONS}"

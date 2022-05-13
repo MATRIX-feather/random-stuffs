@@ -16,7 +16,8 @@ function on_term()
 
 function main()
 {
-    tailOpt="$(tail -n1 "${TARGETFILE}")"
+    #只获取1KB的内容，一般也不会有d3d日志能一行刷1K以上吧...
+    tailOpt="$(tail -c 1K -n1 "${TARGETFILE}")"
 
     if [ -n "${tailOpt}" ];then
         log "捕获到 ${tailOpt}"
