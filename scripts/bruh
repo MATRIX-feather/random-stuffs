@@ -1,0 +1,4 @@
+#!/bin/bash
+AUTOTERMINAL=true
+
+source "$(dirname "$(readlink -f "$0")")/common/common"

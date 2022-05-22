@@ -1,0 +1,16 @@
+#!/bin/bash
+
+function getProfilePictureLocation()
+{
+    local gnomeLocation="/var/lib/AccountsService/icons/${USER:-$(whoami)}";
+    local fallbackLocation="${HOME}/.face";
+
+    #GNOME
+    if [ -f "${gnomeLocation}" ];then
+        printf "%s" "${gnomeLocation}"
+    else
+        printf "%s" "${fallbackLocation}"
+    fi
+
+    unset gnomeLocation fallbackLocation;
+}
