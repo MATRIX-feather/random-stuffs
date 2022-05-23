@@ -57,3 +57,5 @@
     2. 注释掉`COMPRESSION="xz"`
     3. 取消`COMPRESSION="zstd"`前面的注释
     4. 执行`sudo mkinitcpio -P`更新initramfs
+9. 不要在关机的时候卸载所有文件系统
+    1. 执行`sudo systemctl mask mkinitcpio-generate-shutdown-ramfs.service`

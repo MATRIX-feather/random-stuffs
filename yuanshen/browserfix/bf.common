@@ -1,2 +1,2 @@
 #!/bin/bash
-FILEPREFIX="ysbf"
+FILEPREFIX="${FILEPREFIX:-ysbf}"
