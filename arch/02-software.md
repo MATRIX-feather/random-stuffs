@@ -21,8 +21,12 @@ GNOME插件：
 * [`Avatar`](https://extensions.gnome.org/extension/4782/avatar/)：在系统目录显示你的头像
 * [`Blur my Shell`](https://extensions.gnome.org/extension/3193/blur-my-shell/)
 * [`Desktop Icons NG`](https://extensions.gnome.org/extension/2087/desktop-icons-ng-ding/)：拒绝GNOME自带的桌面右键菜单
+    * 但在GNOME自带的窗口截图中会显示一个透明的空窗口，看上去不大爽快。
 * [`GSConnect`](https://extensions.gnome.org/extension/1319/gsconnect/)：KDE Connect的第三方GNOME适配，需要搭配手机端APP食用
     * **用防火墙的话需要开放1716～1764的TCP和UDP端口**
 * [`Input Method Panel`](https://extensions.gnome.org/extension/261/kimpanel/)：将fcitx输入面板像ibus那样集成到GNOME中，**强烈推荐！**
 * [`Unite`](https://extensions.gnome.org/extension/1287/unite/)：一些对GNOME的调整，还挺有用的。
 * [`Just Perfection`](https://extensions.gnome.org/extension/3843/just-perfection/)：同上
+* [`System Action - Hibernate`](https://extensions.gnome.org/extension/3814/system-action-hibernate/)：向GNOME电源菜单添加休眠选项
+    * 休眠前记得检查你的内核启动参数，别忘了加resume。
+    * 详细信息可以在[这里](https://wiki.archlinux.org/title/Power_management_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)/Suspend_and_hibernate_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#%E4%BC%91%E7%9C%A0)找到
