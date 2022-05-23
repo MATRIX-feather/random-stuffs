@@ -3,8 +3,14 @@
 1. 卸载reflector
     1. 打开终端，执行`sudo pacman -R reflector`
     2. 这样可以避免reflector老是覆盖pacman镜像源
+    * reflector配置好的话也可以自动刷新成国内源，但我目前不大需要
 
-2. 安装CJK字体和防火墙
+2. 换源
+    1. 编辑`/etc/pacman.d/mirrorlist/`
+        1. 在第一行Server上面插入`Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch`更换到清华源
+        * 也可以更换成国内其他地方的镜像源，我这里用清华源速度会更快点
+
+3. 安装CJK字体和防火墙
     ```Bash
     #防火墙
     sudo pacman -S gufw noto-fonts-cjk
@@ -14,9 +20,10 @@
     ```
     将“状态”旁的开关点开就行
 
-3. 安装一些必要软件
+4. 安装一些必要软件
+    * 可以参考[这个列表](./02-software.md)
 
-4. 导入archlinuxcn
+5. 导入archlinuxcn
     * [https://www.archlinuxcn.org/archlinux-cn-repo-and-mirror/](https://www.archlinuxcn.org/archlinux-cn-repo-and-mirror/)
 
     * 快捷应用
@@ -33,14 +40,14 @@
         ```
 
     * `archlinuxcn-mirrorlist-git`在安装后，`/etc/pacman.d/`下面应该会多一个"archlinuxcn-mirrorlist"，使用`sudo nano /etc/pacman.d/archlinuxcn-mirrorlist`，挑选一个镜像源，删掉前面的“#”，然后 [Ctrl]+[X] -> [y] -> [回车] 保存后通过`sudo pacman -Sy`更新源即可。
-5. 换主题
+6. 换主题
     * ALG安装好之后应该是会自动换到Orchis主题的，但如果没换到：
         1. 打开“优化”（gnome-tweaks）
         2. 在“外观”栏找到“过时应用程序”和“Shell”
         3. 点开他们旁边的下拉菜单，选择`Orchis-<你喜欢的颜色>`
-6. 字体
+7. 字体
     * 默认字体对我来说有点小，所以我一般会把大小调到13号
-7. 本地PATH
+8. 本地PATH
     * 本地PATH可以方便
     * ~~具体是怎么做的我也忘记了，所以这小节的内容可能不大准~~
     1. 可能的方案A：
@@ -52,10 +59,10 @@
         1. 创建`~/.config/environment.d/path.conf`
         2. 向里面写入`PATH=${PATH}:${HOME}/.local/bin`
         * 在全新安装的home上可以稳定生效，但".local/bin"好像不在PATH的最后面
-8. 用zstd压缩initramfs以优化开机速度
+9. 用zstd压缩initramfs以优化开机速度
     1. 编辑`/etc/mkinitcpio.conf`
     2. 注释掉`COMPRESSION="xz"`
     3. 取消`COMPRESSION="zstd"`前面的注释
     4. 执行`sudo mkinitcpio -P`更新initramfs
-9. 不要在关机的时候卸载所有文件系统
+10. 不要在关机的时候卸载所有文件系统
     1. 执行`sudo systemctl mask mkinitcpio-generate-shutdown-ramfs.service`
