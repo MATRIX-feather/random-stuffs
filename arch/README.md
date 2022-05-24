@@ -3,7 +3,7 @@
 PS：我目前的Arch是通过ALG安装到硬盘上，可能与CLI安装的情况有所不同。
 
 * 00 ) [安装后要做的事](./00-after-install.md)
-* 01 ) [无特权X服务器](./00-rootless-X.md)
+* 01 ) [无特权X服务器](./01-rootless-X.md)
 * 02 ) [全程图形化启动，避免无意义的输出](./01-graphical-boot.md)
 * 03 ) [Grub主题](./01-grub-theme.md)
 * 04 ) [软件推荐](./02-software.md)

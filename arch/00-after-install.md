@@ -66,3 +66,9 @@
     4. 执行`sudo mkinitcpio -P`更新initramfs
 10. 不要在关机的时候卸载所有文件系统
     1. 执行`sudo systemctl mask mkinitcpio-generate-shutdown-ramfs.service`
+11. 调整Transparent Huge Pages政策
+    * 可以避免GNOME总是内存泄露（内存占用从700MB+降到~180MB）
+    1. 编辑`/etc/tmpfiles.d/local.conf`
+        * 写入`w /sys/kernel/mm/transparent_hugepage/enabled - - - - madvise`
+    2. 重启看看效果
+        * 如果不想马上重启，执行`echo madvise | sudo tee /sys/kernel/mm/transparent_hugepage/enabled`后重启GNOME看看([Alt]+[F2] -> `r` -> [Enter])
