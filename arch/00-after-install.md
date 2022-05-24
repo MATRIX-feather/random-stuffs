@@ -39,7 +39,7 @@
         sudo pacman -S archlinuxcn-keyring archlinuxcn-mirrorlist-git
         ```
 
-    * `archlinuxcn-mirrorlist-git`在安装后，`/etc/pacman.d/`下面应该会多一个"archlinuxcn-mirrorlist"，使用`sudo nano /etc/pacman.d/archlinuxcn-mirrorlist`，挑选一个镜像源，删掉前面的“#”，然后 [Ctrl]+[X] -> [y] -> [回车] 保存后通过`sudo pacman -Sy`更新源即可。
+    * `archlinuxcn-mirrorlist-git`在安装后，`/etc/pacman.d/`下面应该会多一个"archlinuxcn-mirrorlist"，使用`sudo nano /etc/pacman.d/archlinuxcn-mirrorlist`，挑选一个镜像源，删掉前面的“#”，然后 [Ctrl]+[X] -> [y] -> [Enter]，接着编辑`/etc/pacman.conf`，把cn源的`Server = ...`改成`Include = /etc/pacman.d/archlinuxcn-mirrorlist`
 6. 换主题
     * ALG安装好之后应该是会自动换到Orchis主题的，但如果没换到：
         1. 打开“优化”（gnome-tweaks）
