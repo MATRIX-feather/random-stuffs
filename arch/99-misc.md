@@ -23,3 +23,17 @@
 * 安装`intel-media-driver`
     * `sudo pacman -S intel-media-driver`
     * 这个装上之后就可以卸掉`libva-intel-driver`了，因为很明显你并不需要i915_drv_video.so，你需要的是iHD，留着i915反而可能会让一些程序用错误的库。
+
+### Intel集显相关
+
+1. 先通过`sudo pacman -S intel-gpu-tools`安装相关工具
+2. 执行`sudo intel_gpu_frequency`看看当前集显工作频率(`cur: ...`)
+3. 安装完成后执行`sudo intel_gpu_frequency -m`将集显最低频率拉满
+4. 再`sudo intel_gpu_frequency`看看效果
+* 实测可以极大缓解GNOME的卡顿问题
+
+### (AUR) mutter-performance
+* 据说可以优化GNOME窗管的性能，感觉确实有一点改进
+* 可以通过当前系统管理AUR的程序安装
+    * 例如：`sudo <paru或yay> -S mutter-performance`
+* **注：此包会破坏原有的pulseaudio，如果重启后没有声音，请安装`pipewire-pulse`**
