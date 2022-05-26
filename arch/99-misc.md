@@ -36,4 +36,5 @@
 * 据说可以优化GNOME窗管的性能，感觉确实有一点改进
 * 可以通过当前系统管理AUR的程序安装
     * 例如：`sudo <paru或yay> -S mutter-performance`
-* **注：此包会破坏原有的pulseaudio，如果重启后没有声音，请安装`pipewire-pulse`**
+* **注：此包依赖的wireplumber会破坏原有的pulseaudio，如果重启后没有声音，请安装`pipewire-pulse`**
+    * 也可以用`sudo pacman -S mutter`重装回默认的mutter，但wireplumber不一定会跟着卸载，具体怎么装回pulseaudio我暂时还没头绪，或许可以参考一下[这个文档](https://www.archlinuxcn.org/undone-replacement-of-pipewire-media-session-with-wireplumber/)？
