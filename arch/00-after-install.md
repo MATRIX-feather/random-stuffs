@@ -18,7 +18,7 @@
     ```Bash
     #根据介绍导入源
     echo "[archlinuxcn]
-    Server = https://repo.archlinuxcn.org/\$arch" | sudo tee /etc/pacman.conf
+    Server = https://repo.archlinuxcn.org/\$arch" | sudo tee -a /etc/pacman.conf
 
     #更新列表
     sudo pacman -Sy
