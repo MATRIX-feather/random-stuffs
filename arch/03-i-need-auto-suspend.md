@@ -3,6 +3,7 @@
     1. 在这些条目前面加上"#"注释掉
         * `HandleSuspendKey=ignore`
         * `HandleHibernateKey=ignore`
+            * **注：在将`HandleHibernateKey`设置为`ignore`前，[请先确保你配置好了休眠](./01-hibernate.md)**
         * `HandleLidSwitch=ignore`
 2. 编辑`/etc/systemd/logind.conf.d/do-not-suspend.conf`
     1. 注释所有内容
