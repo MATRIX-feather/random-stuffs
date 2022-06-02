@@ -32,6 +32,11 @@
 4. 再`sudo intel_gpu_frequency`看看效果
 * 实测可以极大缓解GNOME的卡顿问题
 
+### 内核组件黑名单
+* 可以试试将modprobe_blacklist里的所有conf复制到`/etc/modprobe.d/`下面
+    * 这些是我从Ubuntu 21.10备份里取到的，可以加上看看。
+    * 比方说[blacklist.conf](./modprobe_blacklists//blacklist.conf)里的`blacklist pcspkr`就可以防止主板在你关机/重启/休眠时突然响一声~~助力你的心脏病发展~~吓你一跳
+
 ### (AUR) mutter-performance
 * 据说可以优化GNOME窗管的性能，感觉确实有一点改进
 * 可以通过当前系统管理AUR的程序安装
