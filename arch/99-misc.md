@@ -33,9 +33,14 @@
 * 实测可以极大缓解GNOME的卡顿问题
 
 ### 内核组件黑名单
-* 可以试试将modprobe_blacklist里的所有conf复制到`/etc/modprobe.d/`下面
+* 可以试试将[modprobe_blacklist](./modprobe_blacklists/)里的所有conf复制到`/etc/modprobe.d/`下面
     * 这些是我从Ubuntu 21.10备份里取到的，可以加上看看。
     * 比方说[blacklist.conf](./modprobe_blacklists//blacklist.conf)里的`blacklist pcspkr`就可以防止主板在你关机/重启/休眠时突然响一声~~助力你的心脏病发展~~吓你一跳
+
+### Xorg配置文件
+* 可以试试将[xorg.conf.d](./xorg.conf.d/)里的所有conf复制到`/usr/share/X11/xorg.conf.d`中
+    * 同样是我从Ubuntu 21.10备份里取到的，可能会对你有所帮助。
+    * `10-nvidia.conf`中我把`ModulePath`的路径给改了改，避免复制到Arch后会找不到相关文件
 
 ### (AUR) mutter-performance
 * 据说可以优化GNOME窗管的性能，感觉确实有一点改进

@@ -46,3 +46,15 @@ sudo gufw
 
 ### 安装一些必要软件
 * 可以参考[这个列表](./02-software.md)
+
+### 禁用pcspkr
+Ubuntu在/etc/modprobe.d/blacklist里对此组件的评价：
+>ugly and loud noise, getting on everyone's nerves
+>
+>丑陋而响亮的噪音，触动了所有人的神经（谷歌翻译）
+
+我对此深有感触。
+
+执行`echo blacklist pcspkr | sudo tee /etc/modprobe.d/shutup_pcspkr`后`sudo rmmod pcspkr`禁用此组件应该就可以了。
+
+更多信息请见[这里](./99-misc.md#内核组件黑名单)
