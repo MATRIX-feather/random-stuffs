@@ -15,6 +15,7 @@
     * *ALG*安装好后应该是自带Orchis的
 * Graphite
     * 可以在[pling](https://www.pling.com/p/1598493)或[GitHub](https://github.com/vinceliuice/Graphite-gtk-theme)上找到
+    * 现役主题
     * ~~每次一出新主题，上个主题马上就不香了~~
 * Fluent
     * Windows风格的主题
@@ -28,8 +29,7 @@
     * ~~猫布丁主题~~
     * 可以在[GitHub](https://github.com/catppuccin/catppuccin)上找到，下方的"[Ports and more!](https://github.com/catppuccin/catppuccin#-ports-and-more)"可以找到以适配的平台
     * 在AUR上可以搜到对应的GTK、Grub、SDDM主题和壁纸
-    * **现役主题，用起来还算舒适**
-    ![主题截图](https://s3.bmp.ovh/imgs/2022/05/30/a7cde2fd06d89637.png)
+    <!---![主题截图](https://s3.bmp.ovh/imgs/2022/05/30/a7cde2fd06d89637.png)->
 * Flat Remix
     * 可以在[pling](https://www.pling.com/p/1214931/)或[GitHub](https://github.com/daniruiz/Flat-Remix-GTK)上找到
     * 我接触的第一个自定义主题
@@ -49,15 +49,16 @@
 
 ~~具体是怎么做的我也忘记了，所以这小节的内容可能不大准~~
 
-1. 可能的方案A：
-    1. 打开`~/.bash_profile`
-    2. 在第一行添加`export PATH="${PATH}:${HOME}/.local/bin"`
-    3. 注销重进或者重启看看
-    * 这应该是我从Ubuntu转到Arch前原有的方案，不知道在Arch下是怎么生效的，但".local/bin"稳定在PATH的最后面
-2. 经过测试的方案B：
-    1. 创建`~/.config/environment.d/path.conf`
-    2. 向里面写入`PATH=${PATH}:${HOME}/.local/bin`
-    * 在全新安装的home上可以稳定生效，但".local/bin"好像不在PATH的最后面
+<!--
+1. 打开`~/.bash_profile`
+2. 在第一行添加`export PATH="${PATH}:${HOME}/.local/bin"`
+3. 注销重进或者重启看看
+* 这应该是我从Ubuntu转到Arch前原有的方案，不知道在Arch下是怎么生效的，~~但".local/bin"稳定在PATH的最后面~~（现在不在最后面了）
+-->
+
+1. 创建`~/.config/environment.d/path.conf`
+2. 向里面写入`PATH=${PATH}:${HOME}/.local/bin`
+* 唯一的问题是".local/bin"好像不在PATH的最后面
 
 ### 用zstd压缩initramfs以优化开机速度
 1. 编辑`/etc/mkinitcpio.conf`
@@ -83,3 +84,16 @@ PS: 在设置前，你需要先保证：
     * ALG安装时已经帮你装好了
 * 你自己在`wheel`组里
     * *你应该在安装的时候就已经分配好了，不然你怎么用的sudo（*
+
+### 默认用内核的ntfs3来挂载NTFS文件系统
+方法来自[Arch Wiki](https://wiki.archlinux.org/title/NTFS)，*尚未测试，可能需要重启才能发挥作用。*
+
+编辑`/etc/udev/rules.d/ntfs3_by_default.rules`，输入以下内容：
+```
+SUBSYSTEM=="block", ENV{ID_FS_TYPE}=="ntfs", ENV{ID_FS_TYPE}="ntfs3"
+```
+
+PS: 你可你也需要将下面的内容写入到`/etc/udisks2/mount_options.conf`的`[defaults]`里面：
+```
+ntfs_defaults=uid=$UID,gid=$GID,noatime,prealloc
+```
