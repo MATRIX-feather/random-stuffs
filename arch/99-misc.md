@@ -50,3 +50,9 @@
     * 好像三重缓冲补丁打上之后所有原生SDL程序全屏都会出问题，暂时可以[通过插件禁用全屏undirect](https://extensions.gnome.org/extension/4509/disable-unredirect-fullscreen-windows/)缓解，但代价是在视觉上会有延迟(在我这60Hz的屏幕上很明显)，如果想用这个缓解办法打osu这种对延迟很敏感的游戏的话，还是换回原版mutter吧...
 * **注2：此包依赖的wireplumber会破坏原有的pulseaudio，如果重启后没有声音，请安装`pipewire-pulse`**
     * 也可以用`sudo pacman -S mutter`重装回默认的mutter，但wireplumber不一定会跟着卸载，具体怎么装回pulseaudio我暂时还没头绪，或许可以参考一下[这个文档](https://www.archlinuxcn.org/undone-replacement-of-pipewire-media-session-with-wireplumber/)？
+
+### ALSOFT实时音频相关
+* 能解决Minecraft报错`[ALSOFT] (EE) Failed to set real-time priority for thread: 不允许的操作(1)`
+* ***可能****会与system76-scheduler冲突，因为两个都和设置进程优先级有关*
+* 安装`realtime-privileges`，然后`sudo usermod -G realtime -a $(whoami)`
+* 配置完成后重启再试试

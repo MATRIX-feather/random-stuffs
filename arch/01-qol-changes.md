@@ -97,3 +97,8 @@ PS: 你可你也需要将下面的内容写入到`/etc/udisks2/mount_options.con
 ```
 ntfs_defaults=uid=$UID,gid=$GID,noatime,prealloc
 ```
+
+### 使nautilus可以为视频生成缩略图
+方法来自[Arch Wiki](https://wiki.archlinux.org/title/GNOME_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)/Files_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#%E7%BC%A9%E7%95%A5%E5%9B%BE)
+
+安装`ffmpegthumbnailer`包即可，应该不需要重启文管(nautilus)

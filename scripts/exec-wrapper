@@ -1,0 +1,22 @@
+#!/bin/bash
+OPENCMD=""
+OPEN_ARGS_LEFT=""
+OPEN_ARGS_RIGHT=""
+
+function resolve_config()
+{
+    local targetBaseName="$(basename $0)"
+    targetBaseName="${targetBaseName/exec-wrapper-/}"
+
+    #决定要怎么执行
+    printf "GET ${targetBaseName} \n"
+    OPENCMD="$(which "${targetBaseName}")"
+    unset resolve_config
+
+    #source需要的资源文件
+    source "$0.source"
+}
+
+resolve_config
+
+"${OPENCMD}" ${OPEN_ARGS_LEFT} "$@" ${OPEN_ARGS_RIGHT}

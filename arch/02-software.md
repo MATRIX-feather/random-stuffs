@@ -53,6 +53,11 @@
     * 第三方数位板驱动，比内核的wacom驱动功能要多，最主要是能调映射，再也不用硬着头皮用100%全板健身辣
         * ~~[因为换成80%的全板了](../ubuntu/otd.json)~~
 
+* `(AUR) system76-scheduler`
+    * System76开发的CPU调度调优，配合[GNOME插件](https://extensions.gnome.org/extension/4854/system76-scheduler/)或[KDE的KWin脚本](https://store.kde.org/p/1789957)可以为前台应用给与更高优先级。
+    * 同样也会为其他的一些程序（例如你的桌面或者系统的音频服务）优先调度
+    * ~~System76 yyds~~
+
 * `(AUR) visual-studio-code-bin`
     * VS Code
 

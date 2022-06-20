@@ -11,3 +11,5 @@
     * 用法：`x11_force_release`
     * 需要xdotool，*可能*会降低相关安全性
         * ~~不过要真有恶意程序要模拟键鼠一般都会自备相关的库吧~~
+* exec-wrapper: 程序启动包装器，可以用来简化一些程序的启动过程
+    * 例如你装有Graphite-Light主题，但你又向让Chrome用Graphite作为主题，那么你就可以用此脚本在chrome启动前设置
