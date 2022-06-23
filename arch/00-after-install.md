@@ -58,3 +58,8 @@ Ubuntu在/etc/modprobe.d/blacklist里对此组件的评价：
 执行`echo blacklist pcspkr | sudo tee /etc/modprobe.d/shutup_pcspkr`后`sudo rmmod pcspkr`禁用此组件应该就可以了。
 
 更多信息请见[这里](./99-misc.md#内核组件黑名单)
+
+### 禁用root登录
+平时用sudo就行了，方案来自[这里](https://serverfault.com/questions/784921/arch-linux-install-without-root-password)
+
+执行`sudo usermod -p '!' root`或`sudo passwd -l root`即可。

@@ -1,7 +1,18 @@
-一些折腾arch的笔记。
+一些在Arch上折寿的笔记
 
 PS：我目前的Arch是通过ALG安装到硬盘上，可能与CLI安装的情况有所不同。
 
+## 已知问题
+截至目前我在我这电脑上遇到了这些无法解决的问题：
+
+### Arch（ALG？）独有
+* 在睡眠、休眠后除非重启驱动，不然无法使用N卡来加速编、解码
+* Arch上的GNOME有内存溢出的问题
+* Arch上的GNOME默认文管(nautilus)会经常崩溃
+* 就算启用了N卡的KMS，GNOME也不允许使用Wayland
+    * *`/etc/gdm/custom.conf`中WaylandEnable是true*
+
+## 目录
 * 00 ) [安装后要做的事](./00-after-install.md)
     * [卸载reflector](./00-after-install.md#卸载reflector)
     * [换源](./00-after-install.md#换源)
@@ -9,6 +20,7 @@ PS：我目前的Arch是通过ALG安装到硬盘上，可能与CLI安装的情�
         * [为archlinuxcn更换国内镜像](./00-after-install.md#为archlinuxcn更换国内镜像源)
     * [安装字体和防火墙](./00-after-install.md#安装cjk字体和防火墙)
     * [禁用pcspkr](./00-after-install.md#禁用pcspkr)
+    * [禁用root登录](./00-after-install.md#禁用root登录)
 * 01 ) [做这些能让你的Arch体验更美好](./01-qol-changes.md)
     * [升级内核时保留现有的模块](./01-qol-changes.md#保留我现在的内核模块)
     * [解决关机时刷`... /oldroot ... Device is busy`](./01-qol-changes.md#不要在关机的时候卸载所有文件系统)
