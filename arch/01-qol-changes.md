@@ -102,3 +102,13 @@ ntfs_defaults=uid=$UID,gid=$GID,noatime,prealloc
 方法来自[Arch Wiki](https://wiki.archlinux.org/title/GNOME_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)/Files_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#%E7%BC%A9%E7%95%A5%E5%9B%BE)
 
 安装`ffmpegthumbnailer`包即可，应该不需要重启文管(nautilus)
+
+### 避免自己被锁在自己账户外面
+方法来自[Arch Wiki](https://wiki.archlinux.org/title/Security_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#%E5%9C%A8%E4%B8%89%E6%AC%A1%E7%99%BB%E5%BD%95%E5%B0%9D%E8%AF%95%E5%A4%B1%E8%B4%A5%E5%90%8E%E5%B0%81%E9%94%81%E7%94%A8%E6%88%B7)
+
+编辑`/etc/security/faillock.conf`，加上以下内容：
+```
+deny = 0
+```
+
+保存后退出，根据Wiki上的描述，“更改无需重启即可生效。”，但我还没试过。

@@ -2,6 +2,8 @@
 
 PS：我目前的Arch是通过ALG安装到硬盘上，可能与CLI安装的情况有所不同。
 
+*如果你第一次接触Linux桌面，我的建议是先从Ubuntu或Deepin开始，然后再去尝试别的发行版。*
+
 ## 已知问题
 截至目前我在我这电脑上遇到了这些无法解决的问题：
 
@@ -31,6 +33,7 @@ PS：我目前的Arch是通过ALG安装到硬盘上，可能与CLI安装的情�
     * [允许免密改打印机设置](./01-qol-changes.md#允许免密码改打印机设置)
     * [用ntfs3挂载ntfs文件系统](./01-qol-changes.md#默认用内核的ntfs3来挂载ntfs文件系统)
     * [使nautilus可以为视频生成缩略图](./01-qol-changes.md#使nautilus可以为视频生成缩略图)
+    * [避免自己被锁在自己账户外面](./01-qol-changes.md#避免自己被锁在自己账户外面)
 * 02 ) [休眠](./01-hibernate.md)
 * 03 ) [无特权X服务器](./01-rootless-X.md)
 * 04 ) [全程图形化启动，避免无意义的输出](./01-graphical-boot.md)

@@ -135,9 +135,9 @@ function log()
     local msg="[$(date "+%Y-%m-%d %H:%M:%S")] [${level}] [${PID}/${DISPLAYNAME}]: ${externalMsg}"
 
     if [ "${LOGTOFILE}" == "true" ] && [ "${CANLOGTOFILE}" == "true" ];then
-        printf "${msg}\n" >> "${LOGTARGET}" || true;
+        printf "%s\n" "${msg}" >> "${LOGTARGET}" || true;
     else
-        printf "${lcolor}${msg}${C_RESET}\n"
+        printf "${lcolor}%s${C_RESET}\n" "${msg}"
     fi
 
     unset externalMsg

@@ -1,10 +1,14 @@
 # ubuntu
 和Ubuntu有关的东西
 
-*因为22.04在我的设备上有CPU异常降频问题，我现在暂时换到Arch去了，打算等22.10再去看看。*
+### 干掉thermald以避免CPU异常降频
+执行以下指令：
+```
+sudo apt remove thermald
+```
+完成后重启应该就可以了
 
-*如果你第一次接触Linux桌面，我的建议仍然是先从Ubuntu或Deepin开始，然后再去尝试别的发行版。*
-
+### 其他
 * otd.json: 我的数位板映射
     * 用80%大小搓osu的健身玩家（
 * gamemode.ini: gamemode配置文件
