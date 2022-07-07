@@ -1,0 +1,14 @@
+#!/bin/bash
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
+export __NV_PRIME_RENDER_OFFLOAD=1
+export MESA_VK_DEVICE_SELECT=GeForce
+export DXVK_FILTER_DEVICE_NAME=GeForce
+
+export __GL_SHADER_DISK_CACHE=1
+export __GL_THREADED_OPTIMIZATION=1
+
+#if [ -f "/bin/mangohud" ];then
+#    exec mangohud --dlsym java "$@"
+#else
+    exec java "$@"
+#fi

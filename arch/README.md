@@ -9,7 +9,7 @@ PS：我目前的Arch是通过ALG安装到硬盘上，可能与CLI安装的情�
 
 ### Arch（ALG？）独有
 * 在睡眠、休眠后除非重启驱动，不然无法使用N卡来加速编、解码
-* Arch上的GNOME有内存溢出的问题
+* ~~Arch上的GNOME有内存溢出的问题~~ Ubuntu上也遇到了
 * Arch上的GNOME默认文管(nautilus)会经常崩溃
 * 就算启用了N卡的KMS，GNOME也不允许使用Wayland
     * *`/etc/gdm/custom.conf`中WaylandEnable是true*

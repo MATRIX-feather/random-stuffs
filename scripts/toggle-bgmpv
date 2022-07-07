@@ -1,0 +1,183 @@
+#!/bin/bash
+#########################
+#   名称: Json
+#   用途: 执行各种Json操作
+#########################
+
+    function JsonTryParseFile()
+    {
+        local File="$1";
+
+        JsonTryParseStream "$(cat "$File")" 1>/dev/null;
+        return "$?"
+    }
+
+    function JsonTryParseStream()
+    {
+        local Stream="$1";
+
+        echo "$Stream" | jq "to_entries" 1>/dev/null 2>/dev/null;
+        return "$?"
+    }
+
+    function JsonGetValueFromFile()
+    {
+        local File="$1";
+        local Key="$2";
+
+        if [ -z "$File" ] || [ -z "$Key" ] || [ ! -f "$File" ];then
+            return 1;
+        fi;
+
+        local Value;
+        Value="$(jq -r "$Key" < "$File")";
+        echo "$Value"
+    }
+
+    function JsonGetValueFromStream()
+    {
+        local Stream="$1";
+        local Key="$2";
+
+        if [ -z "$Stream" ] || [ -z "$Key" ];then
+            return 1;
+        fi;
+
+        local Value;
+        Value="$(echo "$Stream" | jq -r "$Key")";
+        echo "$Value"
+    }
+
+    function JsonSetValueFromFile()
+    {
+        local File="$1";
+        local Key="$2";
+        local Value="$3";
+
+        if [ -z "$Key" ] || [ -z "$Value" ] || [ -z "$File" ] ;then
+            return 1;
+        fi;
+
+       local NewJson;
+       NewJson="$(JsonSetValueFromStream "$(cat "$File")" "$Key" "$Value")";
+       echo "$?: $NewJson"
+
+        if [ -n "$NewJson" ];then
+            echo "$NewJson" > "$File";
+        else
+            return 2;
+        fi
+    }
+
+    function JsonSetValueFromStream()
+    {
+        local Stream="$1";
+        local Key="$2";
+        local Value="$3";
+
+        if [ -z "$Key" ] || [ -z "$Value" ] || [ -z "$Stream" ] ;then
+            return 1;
+        fi;
+
+        ### 方法来自于 https://www.jianshu.com/p/f50c87b7eaea
+        local ReturnStream;
+        ReturnStream="$(echo "$Stream" | jq "to_entries | 
+           map(if .key == \"$Key\" 
+              then . + {\"value\":\"$Value\"} 
+              else . 
+              end
+             ) | 
+          from_entries")";
+
+            echo "$ReturnStream" >&2
+        if [ "$(JsonGetValueFromStream "$ReturnStream" "$Key" )" == "$Value" ];then
+        {
+            echo "$ReturnStream";
+            echo "$ReturnStream" >&2
+        };else
+        {
+            return 2;
+        };fi
+    }
+
+    function JsonRemoveKeyFromFile()
+    {
+        local File="$1";
+        local Key="$2";
+
+        if [ -z "$Key" ] || [ -z "$File" ] ;then
+            return 1;
+        fi;
+
+        local NewJson;
+        NewJson="$(JsonRemoveKeyFromStream "$(cat "$File")" "$Key")"
+
+        if [ -n "$NewJson" ];then
+            echo "$NewJson" > "$File";
+        else
+            return 2;
+        fi
+    }
+
+    function JsonRemoveKeyFromStream()
+    {
+        local Stream="$1";
+        local Key="$2";
+
+        if [ -z "$Key" ] || [ -z "$Stream" ] ;then
+            return 1;
+        fi;
+
+        local NewStream;
+        NewStream="$(echo "$Stream" | jq "del(.$Key)")";
+
+        echo "$NewStream";
+    }
+
+    function JsonAddKeyFromFile()
+    {
+        local File="$1";
+        local Key="$2";
+        local Value="$3";
+
+        if [ -z "$File" ] || [ -z "$Key" ] || [ -z "$Value" ];then
+            return 1;
+        fi;
+
+        local NewJson;
+        NewJson="$(JsonAddKeyFromStream "$(cat "$File")" "$Key" "$Value" )";
+
+        if [ -n "$NewJson" ];then
+            echo "$NewJson" > "$File";
+        else
+            return 2;
+        fi
+    }
+
+    function JsonAddKeyFromStream()
+    {
+        local Stream="$1";
+        local Key="$2";
+        local Value="$3";
+
+        if [ -z "$Stream" ] || [ -z "$Key" ] || [ -z "$Value" ];then
+            return 1;
+        fi;
+
+        local NewStream;
+        NewStream="$(echo "$Stream" | jq ". + { \"$Key\": \"$Value\" }")";
+
+        if [ "$(JsonGetValueFromStream "$NewStream" ".$Key" )" == "$Value" ];then
+        {
+            echo "$NewStream";
+        };else
+        {
+            return 2;
+        };fi
+    }
+    
+if [ "$(JsonGetValueFromStream "$(echo '{ "command": ["get_property", "pause"] }' | socat - "$HOME"/.local/mpvsocket)" .data)" == "true" ];then
+        echo '{ "command": ["set_property", "pause", false] }' | socat - "$HOME/.local/mpvsocket";
+else
+        echo '{ "command": ["set_property", "pause", true] }' | socat - "$HOME/.local/mpvsocket";
+fi;

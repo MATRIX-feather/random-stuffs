@@ -1,0 +1,20 @@
+#!/bin/bash
+AUTOTERMINAL=true
+PAUSEONEXITCALL=true
+
+source "$(dirname "$(readlink -f "$0")")/../../scripts/common/common"
+
+log "获取PCI号"
+readonly pciNum="$(lspci | grep "VGA" | head -n1 | cut -d ' ' -f1)"
+readonly pciParent="$(echo "${pciNum}" | cut -d ':' -f1-2)"
+log "获取到${pciNum}(${pciParent})，尝试复制文件..."
+
+if [ -f /sys/devices/pci"${pciParent}"/"${pciNum}"/drm/card0/card0-eDP-1/edid ];then
+    cp /sys/devices/pci"${pciParent}"/"${pciNum}"/drm/card0/card0-eDP-1/edid "${PWD}/CurrentEdid.bin" || die 2 "复制失败..."
+    log "成功！文件已保存到${PWD}/CurrentEdid.bin"
+    
+else
+    die 1 "没有找到EDID文件...OMO"
+fi
+
+pause

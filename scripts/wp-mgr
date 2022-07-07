@@ -1,0 +1,464 @@
+#!/bin/bash
+#IModule
+
+#########################
+#   名称: IniConfig
+#   用途: 提供ini配置读写功能
+#   出处: https://blog.csdn.net/wanxiaoderen/article/details/82388091?utm_source=blogxgwz0
+#########################
+
+#shellcheck disable=2206
+#shellcheck disable=2286
+#shellcheck disable=2086
+#shellcheck disable=2068
+#shellcheck disable=2154
+if [ -z "$_IniConfig_Loaded" ];then
+    function _framework_resolve_dependencies()
+    {
+        true;
+    }
+
+    #result
+    _IniConfig_IniOptions=()
+    _IniConfig_IniSections=()
+
+    function _IniConfig_ReadOptionFromFile()
+    {
+        local file="$1";
+        local section="$2";
+        local option="$3";
+
+        if [ ! -f "$file" ];then
+            touch "$file";
+        fi;
+
+        if [ "${section}" = "" ];then
+            #通过如下两条命令可以解析成一个数组
+            allSections=$(awk -F '[][]' '/\[.*]/{print $2}' "${file}")
+            _IniConfig_IniSections=(${allSections// /})
+        elif [ "${section}" != "" ] && [ "${option}" = "" ];then
+            #判断section是否存在
+            allSections=$(awk -F '[][]' '/\[.*]/{print $2}' "${file}")
+            echo $allSections | grep ${section}
+            if [ "$?" = "1" ];then
+                echo "[error]:section --${section}-- not exist!"
+                return 0
+            fi
+            #正式获取options
+            #a=(获取匹配到的section之后部分|去除第一行|去除空行|去除每一行行首行尾空格|将行内空格变为@G@(后面分割时为数组时，空格会导致误拆))
+            a=$(awk "/\[${section}\]/{a=1}a==1"  "${file}"|sed -e'1d' -e '/^$/d'  -e 's/[ \t]*$//g' -e 's/^[ \t]*//g' -e 's/[ ]/@G@/g' -e '/\[/,$d' )
+            b=(${a})
+            for i in ${b[@]};do
+              #剔除非法字符，转换@G@为空格并添加到数组尾
+              if [ -n "${i}" ]||[ "${i}" != "@S@" ];then
+                  _IniConfig_IniOptions[${#_IniConfig_IniOptions[@]}]=${i//@G@/ }
+              fi
+            done
+        elif [ -n "${section}" ] && [ -n "${option}" ];then
+            local _IniConfig_Output;
+            _IniConfig_Output="$(awk -F '=' "/\[${section}\]/{a=1}a==1" "${file}"|sed -e '1d' -e '/^$/d' -e '/^\[.*\]/,$d' -e "/^${option}.*=.*/!d" -e "s/^${option}.*= *//")";
+            if [ -z "$_IniConfig_Output" ];then
+                return 1;
+            else
+                echo "$_IniConfig_Output";
+            fi;
+        fi
+    }
+    
+    function _IniConfig_WriteOptionToFile()
+    {
+        local file="$1";
+        local section="$2"
+        local option="$3"
+        local value="$4"
+
+        if [ ! -f "$file" ];then
+            touch "$file";
+        fi;
+
+        #检查文件
+        allSections=$(awk -F '[][]' '/\[.*]/{print $2}' "${file}")
+        _IniConfig_IniSections=(${allSections// /})
+        #判断是否要新建section
+        sectionFlag="0"
+        for temp in ${_IniConfig_IniSections[@]};do
+            if [ "${temp}" = "${section}" ];then
+                sectionFlag="1"
+                break
+            fi
+        done
+    
+        if [ "$sectionFlag" = "0" ];then
+            echo "[${section}]" >>"${file}"
+        fi
+        #加入或更新value
+        if awk "/\[${section}\]/{a=1}a==1" "${file}"|sed -e '1d' -e '/^$/d'  -e 's/[ \t]*$//g' -e 's/^[ \t]*//g' -e '/\[/,$d'|grep "${option}.\?=">/dev/null;then
+            #更新
+            #找到制定section行号码
+            sectionNum=$(sed -n -e "/\[${section}\]/=" "${file}")
+            sed -i "${sectionNum},/^\[.*\]/s/\(${option}.\?=\).*/\1 ${value}/g" "${file}"
+        else
+            #新增
+            sed -i "/^\[${section}\]/a\\${option} = ${value}" "${file}"
+        fi
+    }
+    readonly _IniConfig_Loaded=true;
+fi;#!/bin/bash
+#IModule
+
+#########################
+#   名称: Logger
+#   用途: 提供一些基础的输出功能
+#########################
+
+_module_dependencies=(IniConfig);
+_module_Name="Logger";
+if [ -z "$_Logger_Loaded" ];then
+    function _framework_resolve_dependencies()
+    {
+        true;
+    }
+
+    readonly _Logger_Color_Green="\33[32m";
+    readonly _Logger_Color_Yellow="\33[33m";
+    readonly _Logger_Color_Red="\33[31m";
+    readonly _Logger_Color_White="\33[0m";
+    readonly _Logger_Color_Gray="\33[2m";
+
+    function _Logger_LogFromPipe()
+    {
+        local LogLevel="$1";
+        local Multiline="${2:-"false"}";
+        local ExtraMessage="$3";
+        local Message="";
+        if [ "$Multiline" == true ];then
+            while read -r Message;do
+                _Logger_Log "$LogLevel" "$Message";
+            done;
+        else
+            read -r Message;
+            _Logger_Log "$LogLevel" "${ExtraMessage}${Message}";
+        fi;
+    }
+
+    function _Logger_Log()
+    {
+        local LogLevel="${1:-"Info"}";
+        local Message="${2}";
+
+        local Color="";
+        case "$LogLevel" in
+            (Ok)
+                Color="${_Logger_Color_Green}";
+                LogLevel=" OK ";
+                ;;
+            (Warn | Warning)
+                Color="${_Logger_Color_Yellow}";
+                LogLevel="Warn";
+                ;;
+            (Err | Erro | Error)
+                Color="${_Logger_Color_Red}";
+                LogLevel="Erro";
+                ;;
+            (Info)
+                Color="${_Logger_Color_White}";
+                ;;
+            (Debug)
+                Color="${_Logger_Color_Gray}"
+                ;;
+            (*)
+                Color="${_Logger_Color_White}";
+                _Logger_Log Erro "[Logger] 未知的日志等级 \"$LogLevel\"";
+                LogLevel="Info";
+                Message="$1";
+        esac;
+
+        if [ "$DEBUG" == "0" ] || [ -z "$DEBUG" ];then
+            return;
+        fi;
+
+        printf "[%s | $$][$(date +%T)]${Color}[${LogLevel}]\t%s\33[0m\n" "${_framework_APPNAME:-$0}" "$Message" >&2;
+    }
+
+    readonly _Logger_Loaded=true;
+fi;
+#!/bin/bash
+#IModule
+
+#########################
+#   名称: Zenity
+#   用途: 将信息通过Zenity推送给用户
+#########################
+_module_dependencies=(Logger Lo Locale IniConfig);
+_module_Name="Zenity";
+
+if [ -z "$_Zenity_Loaded" ];then
+    function _framework_resolve_dependencies()
+    {
+        true;
+    }
+
+    function _Zenity_Info()
+    {
+        local msg="${1:-"$(_Locale_get _Generic_NoMsg)"}";
+        zenity --info --ellipsize --text="$msg" 2>/dev/null;
+    }
+
+    function _Zenity_Error()
+    {
+        local msg="${1:-"$(_Locale_get _Generic_NoMsg)"}";
+        zenity --error --ellipsize --text="$msg" 2>/dev/null;
+    }
+
+    function _Zenity_Warn()
+    {
+        local msg="${1:-"$(_Locale_get _Generic_NoMsg)"}";
+        zenity --warning --ellipsize --text="$msg" 2>/dev/null;
+    }
+
+    function _Zenity_Question()
+    {
+        local msg="${1:-"$(_Locale_get _Generic_NoMsg)"}";
+        zenity --question --ellipsize --text="$msg" 2>/dev/null;
+        return $?;
+    }
+
+    function _Zenity_FileSelection()
+    {
+        local Title="${1:-"$(_Locale_get _Generic_NoMsg)"}";
+        local MimeType="$2"
+
+        local _Zenity_FileSelection_Path="";
+
+        for ((re=1;re<=3;re++));do
+        {
+            if ! _Zenity_FileSelection_Path="$(zenity --file-selection --title="$(_Locale_get "$Title" "$re")" 2>/dev/null)";then
+            {
+                _Zenity_Error "$(_Locale_get _Zenity_InvaildPath "$re")";
+            };else
+            {
+                #MIME检查
+                if [ -n "$MimeType" ] \
+                    && [ "$(file -b --mime-type "$_Zenity_FileSelection_Path")" != "$MimeType" ];then
+                {
+                    _Zenity_Error "$(_Locale_get _Zenity_MIMEMismatch)" >&2;
+                    continue;
+                };else
+                {
+                    echo "$_Zenity_FileSelection_Path";
+                    break;
+                };fi;
+            };fi;
+
+            if [ "$re" -eq 3 ];then
+            {
+                _Logger_Log Error "[ZenityPush] $(_Locale_get _Zenity_InvaildValueForThreeTimes)"
+                return 1;
+            };fi;
+        };done
+
+        return 0;
+    }
+
+    function _Zenity_DirectorySelection()
+    {
+        local Title="${1:-"$(_Locale_get _Generic_NoMsg)"}";
+        local _Zenity_DirectorySelection_Path;
+
+        for ((re=1;re<=3;re++));do
+        {
+            if ! _Zenity_DirectorySelection_Path="$(zenity --directory --file-selection --title="$(_Locale_get _Zenity_DirectorySelectTitle "$Title" "$re")" 2>/dev/null)";then
+            {
+                _Zenity_Error "$(_Locale_get _Zenity_InvaildPath "$re")";
+            };else
+            {
+                echo "$_Zenity_DirectorySelection_Path";
+                break;
+            };fi;
+
+            if [ "$re" -eq 3 ];then
+            {
+                _Logger_Log Error "[ZenityPush] $(_Locale_get _Zenity_InvaildValueForThreeTimes)"
+                return 1;
+            };fi;
+        };done
+
+        return 0;
+    }
+    
+    function _Zenity_Entry()
+    {
+        local Title="${1:-"$(_Locale_get _Generic_NoMsg)"}";
+        local msg="${2:-"${Title:-"$(_Locale_get _Generic_NoMsg)"}"}";
+        local DefaultText="${3}";
+
+        local Text="";
+        if ! Text="$(zenity --entry --entry-text="$DefaultText" --text="$msg" --title="$Title")";then
+            echo "$DefaultText";
+            return 1;
+        else
+            echo "$Text";
+            return 0;
+        fi;
+    }
+
+    readonly _Zenity_Loaded=true;
+fi;#!/bin/bash
+
+VideoStoragePath="$HOME/视频/壁纸/wallpaper engine"
+Entrys=();
+wallpaperAmount=0;
+ZenityIcon="$HOME/.local/bin/wp-mgr-icon.svg";
+totalDirectories=0;
+config="$HOME/.config/wp-mgr"
+
+DetailedMetaData="";
+
+function reset()
+{
+    export totalDirectories=0;
+    export Entrys=();
+    export wallpaperAmount=0;
+    export DetailedMetaData="$(_IniConfig_ReadOptionFromFile "$config" Main DetailedMetadata)";
+}
+
+function generateArgByDirectoryPath()
+{
+    local fullPath="$1";
+    if [ ! -d "$fullPath" ];then
+        _Zenity_Error "$fullPath不是一个目录"
+    else
+    {
+        if [ "$DetailedMetaData" == "true" ];then
+        {
+            config="$fullPath"/config.ini;
+            meta_name="$(_IniConfig_ReadOptionFromFile "$config" MetaData Name)";
+            meta_author="$(_IniConfig_ReadOptionFromFile "$config" MetaData Author)";
+            meta_source="$(_IniConfig_ReadOptionFromFile "$config" MetaData Source)";
+            finalString="$meta_author - $meta_name";
+            finalString="${finalString//\'/’} ($meta_source)";
+        }
+        else
+        {
+            finalString="$(basename "$fullPath")"
+        };fi
+
+        directoryMiniThumbnail="$fullPath/mini.jpg";
+
+        if [ ! -f "$directoryMiniThumbnail" ];then
+            directoryMiniThumbnail="$VideoStoragePath/no-mini-thubnail.png";
+        fi;
+
+        directoryMiniThumbnail="${directoryMiniThumbnail// /\\\ }";
+        directoryMiniThumbnail="${directoryMiniThumbnail//)/\\)}";
+        directoryMiniThumbnail="${directoryMiniThumbnail//(/\\(}";
+        directoryMiniThumbnail="${directoryMiniThumbnail//|/\\|}";
+        ((wallpaperAmount+=1));
+
+        Entrys=("${Entrys[@]}" "$directoryMiniThumbnail '$wallpaperAmount' '$finalString'");
+        _Logger_Log Debug "Add Entry: $directoryMiniThumbnail | $finalString"
+    };fi
+}
+
+function generateArg()
+{
+    for i in "$VideoStoragePath"/*;do
+        if [ -d "$i" ];then
+            ((totalDirectories+=1));
+        fi;
+    done;
+
+    for i in "$VideoStoragePath"/*;do
+        if [ -d "$i" ];then
+            generateArgByDirectoryPath "$i"
+        fi;
+    done;
+}
+
+function scheduleExit()
+{
+    _Logger_Log Debug "Schedule Exit"
+
+    exit 0;
+    #killall wp-mgr;
+}
+
+function prepareZenityWindow()
+{
+    Entrys=();
+    generateArg;
+    local resolution="$(xrandr --current | head -n1)"
+    local screenY="$(echo "$resolution" | cut -d ' ' -f 10)";
+    local screenX="$(echo "$resolution" | cut -d ' ' -f 8)";
+    screenY="${screenY//,/}";
+
+    ((screenY/=2));
+    ((screenX/=2));
+
+    local extraButtonName;
+    if [ "$DetailedMetaData" == "true" ];then
+        extraButtonName="切换到简单模式";
+    else
+        extraButtonName="切换到详细模式";
+    fi;
+
+    _Logger_Log Debug "Executing bash -c 'zenity --list --title=壁纸选择器 --window-icon=$ZenityIcon --hide-header --height=$screenY --width=$screenX --text='选择一个要使用的壁纸\n当前目录: $VideoStoragePath, $totalDirectories张壁纸可用' --column=缩略图 --column=编号 --column=名称 --imagelist ${Entrys[*]}'"
+    selectedName="$(bash -c "zenity --list --title=壁纸选择器 --window-icon=$ZenityIcon --hide-header --extra-button=$extraButtonName  --height=$screenY --name=壁纸选择器 --width=$screenX --text='选择一个要使用的壁纸\n当前目录: $VideoStoragePath, $totalDirectories张壁纸可用' --column=缩略图 --column=编号 --column=名称 --imagelist ${Entrys[*]}")"
+
+    if [ ! "$?"  == "0" ] && [ -z "$selectedName" ];then
+        scheduleExit;
+    fi;
+
+    _Logger_Log Info "$selectedName"
+    case "$selectedName" in
+        "切换到简单模式")
+            _IniConfig_WriteOptionToFile "$HOME/.config/wp-mgr" Main DetailedMetadata "false";
+            wp-mgr&
+            exit 0;
+            ;;
+        "切换到详细模式")
+            _IniConfig_WriteOptionToFile "$HOME/.config/wp-mgr" Main DetailedMetadata "true";
+            wp-mgr&
+            exit 0;
+            ;;
+    esac
+
+    selectedDirectory="$(dirname "$selectedName")";
+
+    if [ -n "$selectedDirectory" ] && [ ! "$selectedDirectory" == "." ];then
+    {
+        _Logger_Log Debug "Get! $selectedDirectory";
+        update-wp "$selectedDirectory";
+    }
+    else
+        notify-send "没有选择任何壁纸，选择器即将退出..";
+        scheduleExit;
+    fi;
+}
+
+function onMonitorEventActive()
+{
+    _Logger_Log Debug "Create Zenity Window..."
+    prepareZenityWindow
+    #pid="$!"
+    #_Logger_Log Debug "Created $pid";
+}
+
+function monitorStorage()
+{
+    _Logger_Log Debug "开始监测$VideoStoragePath"
+
+    onMonitorEventActive;
+    inotifywait -mrq --format '%e' --event create,delete,modify "$VideoStoragePath" | while read -r event
+    do
+        event="${event//,ISDIR/}"
+        _Logger_Log Debug "事件 $event"
+        case $event in MODIFY|CREATE|DELETE)
+            onMonitorEventActive;
+            ;;
+        esac
+    done
+}
+
+reset;
+onMonitorEventActive;

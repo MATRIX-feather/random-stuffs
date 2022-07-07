@@ -1,0 +1,14 @@
+#!/bin/bash
+readonly instances=$(jcmd | grep "minecraft" | cut -d ' ' -f1)
+result=0
+
+for i in $instances; do
+	printf "尝试对PID为$i的进程调用GC... "
+	jcmd "$i" GC.run
+	result=$?
+	if [ ! $result -eq 0 ];then
+		printf " ...失败\n";
+	else
+		printf " ...成功\n";
+	fi
+done

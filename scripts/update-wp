@@ -1,0 +1,585 @@
+#!/bin/bash
+#IModul
+#########################
+#   名称: IniConfig
+#   用途: 提供ini配置读写功能
+#   出处: https://blog.csdn.net/wanxiaoderen/article/details/82388091?utm_source=blogxgwz0
+#########################
+
+#shellcheck disable=2206
+#shellcheck disable=2286
+#shellcheck disable=2086
+#shellcheck disable=2068
+#shellcheck disable=2154
+if [ -z "$_IniConfig_Loaded" ];then
+    function _framework_resolve_dependencies()
+    {
+        true;
+    }
+
+    #result
+    _IniConfig_IniOptions=()
+    _IniConfig_IniSections=()
+
+    function _IniConfig_ReadOptionFromFile()
+    {
+        local file="$1";
+        local section="$2";
+        local option="$3";
+
+        if [ ! -f "$file" ];then
+            touch "$file";
+        fi;
+
+        if [ "${section}" = "" ];then
+            #通过如下两条命令可以解析成一个数组
+            allSections=$(awk -F '[][]' '/\[.*]/{print $2}' "${file}")
+            _IniConfig_IniSections=(${allSections// /})
+        elif [ "${section}" != "" ] && [ "${option}" = "" ];then
+            #判断section是否存在
+            allSections=$(awk -F '[][]' '/\[.*]/{print $2}' "${file}")
+            echo $allSections | grep ${section}
+            if [ "$?" = "1" ];then
+                echo "[error]:section --${section}-- not exist!"
+                return 0
+            fi
+            #正式获取options
+            #a=(获取匹配到的section之后部分|去除第一行|去除空行|去除每一行行首行尾空格|将行内空格变为@G@(后面分割时为数组时，空格会导致误拆))
+            a=$(awk "/\[${section}\]/{a=1}a==1"  "${file}"|sed -e'1d' -e '/^$/d'  -e 's/[ \t]*$//g' -e 's/^[ \t]*//g' -e 's/[ ]/@G@/g' -e '/\[/,$d' )
+            b=(${a})
+            for i in ${b[@]};do
+              #剔除非法字符，转换@G@为空格并添加到数组尾
+              if [ -n "${i}" ]||[ "${i}" != "@S@" ];then
+                  _IniConfig_IniOptions[${#_IniConfig_IniOptions[@]}]=${i//@G@/ }
+              fi
+            done
+        elif [ -n "${section}" ] && [ -n "${option}" ];then
+            local _IniConfig_Output;
+            _IniConfig_Output="$(awk -F '=' "/\[${section}\]/{a=1}a==1" "${file}"|sed -e '1d' -e '/^$/d' -e '/^\[.*\]/,$d' -e "/^${option}.*=.*/!d" -e "s/^${option}.*= *//")";
+            if [ -z "$_IniConfig_Output" ];then
+                return 1;
+            else
+                echo "$_IniConfig_Output";
+            fi;
+        fi
+    }
+    
+    function _IniConfig_WriteOptionToFile()
+    {
+        local file="$1";
+        local section="$2"
+        local option="$3"
+        local value="$4"
+
+        if [ ! -f "$file" ];then
+            touch "$file";
+        fi;
+
+        #检查文件
+        allSections=$(awk -F '[][]' '/\[.*]/{print $2}' "${file}")
+        _IniConfig_IniSections=(${allSections// /})
+        #判断是否要新建section
+        sectionFlag="0"
+        for temp in ${_IniConfig_IniSections[@]};do
+            if [ "${temp}" = "${section}" ];then
+                sectionFlag="1"
+                break
+            fi
+        done
+    
+        if [ "$sectionFlag" = "0" ];then
+            echo "[${section}]" >>"${file}"
+        fi
+        #加入或更新value
+        if awk "/\[${section}\]/{a=1}a==1" "${file}"|sed -e '1d' -e '/^$/d'  -e 's/[ \t]*$//g' -e 's/^[ \t]*//g' -e '/\[/,$d'|grep "${option}.\?=">/dev/null;then
+            #更新
+            #找到制定section行号码
+            sectionNum=$(sed -n -e "/\[${section}\]/=" "${file}")
+            sed -i "${sectionNum},/^\[.*\]/s/\(${option}.\?=\).*/\1 ${value}/g" "${file}"
+        else
+            #新增
+            sed -i "/^\[${section}\]/a\\${option} = ${value}" "${file}"
+        fi
+    }
+    readonly _IniConfig_Loaded=true;
+fi;#!/bin/bash
+#IModule
+
+#########################
+#   名称: Logger
+#   用途: 提供一些基础的输出功能
+#########################
+
+_module_dependencies=(IniConfig);
+_module_Name="Logger";
+if [ -z "$_Logger_Loaded" ];then
+    function _framework_resolve_dependencies()
+    {
+        true;
+    }
+
+    readonly _Logger_Color_Green="\33[32m";
+    readonly _Logger_Color_Yellow="\33[33m";
+    readonly _Logger_Color_Red="\33[31m";
+    readonly _Logger_Color_White="\33[0m";
+    readonly _Logger_Color_Gray="\33[2m";
+
+    function _Logger_LogFromPipe()
+    {
+        local LogLevel="$1";
+        local Multiline="${2:-"false"}";
+        local ExtraMessage="$3";
+        local Message="";
+        if [ "$Multiline" == true ];then
+            while read -r Message;do
+                _Logger_Log "$LogLevel" "$Message";
+            done;
+        else
+            read -r Message;
+            _Logger_Log "$LogLevel" "${ExtraMessage}${Message}";
+        fi;
+    }
+
+    function _Logger_Log()
+    {
+        local LogLevel="${1:-"Info"}";
+        local Message="${2}";
+
+        local Color="";
+        case "$LogLevel" in
+            (Ok)
+                Color="${_Logger_Color_Green}";
+                LogLevel=" OK ";
+                ;;
+            (Warn | Warning)
+                Color="${_Logger_Color_Yellow}";
+                LogLevel="Warn";
+                ;;
+            (Err | Erro | Error)
+                Color="${_Logger_Color_Red}";
+                LogLevel="Erro";
+                ;;
+            (Info)
+                Color="${_Logger_Color_White}";
+                ;;
+            (Debug)
+                Color="${_Logger_Color_Gray}"
+                ;;
+            (*)
+                Color="${_Logger_Color_White}";
+                _Logger_Log Erro "[Logger] 未知的日志等级 \"$LogLevel\"";
+                LogLevel="Info";
+                Message="$1";
+        esac;
+
+        if [ "$DEBUG" == "0" ] || [ -z "$DEBUG" ];then
+            return;
+        fi;
+
+        printf "[%s | $$][$(date +%T)]${Color}[${LogLevel}]\t%s\33[0m\n" "${_framework_APPNAME:-$0}" "$Message" >&2;
+    }
+
+    readonly _Logger_Loaded=true;
+fi;
+#!/bin/bash
+#IModule
+
+#########################
+#   名称: Zenity
+#   用途: 将信息通过Zenity推送给用户
+#########################
+_module_dependencies=(Logger Lo Locale IniConfig);
+_module_Name="Zenity";
+
+if [ -z "$_Zenity_Loaded" ];then
+    function _framework_resolve_dependencies()
+    {
+        true;
+    }
+
+    function _Zenity_Info()
+    {
+        local msg="${1:-"$(_Locale_get _Generic_NoMsg)"}";
+        zenity --info --ellipsize --text="$msg" 2>/dev/null;
+    }
+
+    function _Zenity_Error()
+    {
+        local msg="${1:-"$(_Locale_get _Generic_NoMsg)"}";
+        zenity --error --ellipsize --text="$msg" 2>/dev/null;
+    }
+
+    function _Zenity_Warn()
+    {
+        local msg="${1:-"$(_Locale_get _Generic_NoMsg)"}";
+        zenity --warning --ellipsize --text="$msg" 2>/dev/null;
+    }
+
+    function _Zenity_Question()
+    {
+        local msg="${1:-"$(_Locale_get _Generic_NoMsg)"}";
+        zenity --question --ellipsize --text="$msg" 2>/dev/null;
+        return $?;
+    }
+
+    function _Zenity_FileSelection()
+    {
+        local Title="${1:-"$(_Locale_get _Generic_NoMsg)"}";
+        local MimeType="$2"
+
+        local _Zenity_FileSelection_Path="";
+
+        for ((re=1;re<=3;re++));do
+        {
+            if ! _Zenity_FileSelection_Path="$(zenity --file-selection --title="$(_Locale_get "$Title" "$re")" 2>/dev/null)";then
+            {
+                _Zenity_Error "$(_Locale_get _Zenity_InvaildPath "$re")";
+            };else
+            {
+                #MIME检查
+                if [ -n "$MimeType" ] \
+                    && [ "$(file -b --mime-type "$_Zenity_FileSelection_Path")" != "$MimeType" ];then
+                {
+                    _Zenity_Error "$(_Locale_get _Zenity_MIMEMismatch)" >&2;
+                    continue;
+                };else
+                {
+                    echo "$_Zenity_FileSelection_Path";
+                    break;
+                };fi;
+            };fi;
+
+            if [ "$re" -eq 3 ];then
+            {
+                _Logger_Log Error "[ZenityPush] $(_Locale_get _Zenity_InvaildValueForThreeTimes)"
+                return 1;
+            };fi;
+        };done
+
+        return 0;
+    }
+
+    function _Zenity_DirectorySelection()
+    {
+        local Title="${1:-"$(_Locale_get _Generic_NoMsg)"}";
+        local _Zenity_DirectorySelection_Path;
+
+        for ((re=1;re<=3;re++));do
+        {
+            if ! _Zenity_DirectorySelection_Path="$(zenity --directory --file-selection --title="$(_Locale_get _Zenity_DirectorySelectTitle "$Title" "$re")" 2>/dev/null)";then
+            {
+                _Zenity_Error "$(_Locale_get _Zenity_InvaildPath "$re")";
+            };else
+            {
+                echo "$_Zenity_DirectorySelection_Path";
+                break;
+            };fi;
+
+            if [ "$re" -eq 3 ];then
+            {
+                _Logger_Log Error "[ZenityPush] $(_Locale_get _Zenity_InvaildValueForThreeTimes)"
+                return 1;
+            };fi;
+        };done
+
+        return 0;
+    }
+    
+    function _Zenity_Entry()
+    {
+        local Title="${1:-"$(_Locale_get _Generic_NoMsg)"}";
+        local msg="${2:-"${Title:-"$(_Locale_get _Generic_NoMsg)"}"}";
+        local DefaultText="${3}";
+
+        local Text="";
+        if ! Text="$(zenity --entry --entry-text="$DefaultText" --text="$msg" --title="$Title")";then
+            echo "$DefaultText";
+            return 1;
+        else
+            echo "$Text";
+            return 0;
+        fi;
+    }
+
+    readonly _Zenity_Loaded=true;
+fi;#!/bin/bash
+# 警告！在此脚本中，你将会看到：
+# > 高血压缩进
+# > 硬编码
+# > 迷之语句
+# > owo
+#                    *Notices Bulge*
+#   __        ___           _    _        _   _     _      
+#   \ \      / / |__   __ _| |_ ( ) ___  | |_| |__ (_) ___ 
+#    \ \ /\ / /| '_ \ / _\`| __|// / __| | __| '_ \| |/ __|
+#     \ V  V / | | | | (_| | |_    \__ \ | |_| | | | |\__ \
+#      \_/\_/  |_| |_|\__,_|\__|   |___/ \___|_| |_|_|/___/
+#
+
+readonly SOCKETPATH="$HOME/.local/mpvsocket"
+MissingThemes="";
+Quiet=false;
+
+meta_name="";
+meta_author="";
+meta_source="";
+
+function makeThumbnail()
+{
+    local path="$1";
+
+    #如果目录下不存在thumbnail，则生成它，并设置目录图标为该缩略图
+    if [ ! -f "$path/thumbnail.jpg" ];then
+        echo "#生成缩略图..."
+        convert -resize 240 "$path/cover.png" "$path/thumbnail.jpg";
+        gio set "$path" metadata::custom-icon file://"$path/thumbnail.jpg"
+        echo "#生成迷你封面..."
+        convert -resize 90 "$path/thumbnail.jpg" "$path/mini.jpg";
+    fi;
+}
+
+function firstSet()
+{
+    local file="$1";
+    #裁剪文件名，_dir为要创建的目录
+    local _dir="${file%.mp4}"
+    local separator='￿';
+
+    if [ -f "$file" ];then
+    {
+        #创建这个目录
+        mkdir "$_dir";
+
+        #将文件移动到目录下
+        mv "$file" "$_dir/video.mp4" 2>/dev/null;
+    }
+    else
+    {
+        _dir="$file"
+    };fi;
+
+    local raw;
+    local name_line="--add-entry=名称"
+    local source_line="--add-entry=来源"
+    local author_line="--add-entry=作者"
+
+    if [ -n "$meta_name" ];then
+    {
+        name_line=""
+    };fi
+
+    if [ -n "$meta_source" ];then
+    {
+        source_line=""
+    };fi
+
+    if [ -n "$meta_author" ];then
+    {
+        author_line=""
+    };fi
+
+    if ! raw="$(zenity --forms --add-combo="主题色" --combo-values=default\|green\|grey\|orange\|pink\|purple\|red\|yellow \
+                     --text="由${meta_author:-"未知作者"}创作的${meta_name:-"壁纸"}" \
+                     --title=设置壁纸 \
+                     --add-combo="Glava颜色" --combo-values=light\|dark \
+                     --add-combo="为该壁纸启用音频?" --combo-values=是\|否 \
+                     "$name_line" \
+                     "$author_line" \
+                     "$source_line" --separator="$separator")";then
+                     {
+                        exit 1;
+                     }
+    fi;
+
+    local options_color="$(awk -F"$separator" '{print $1}' <<< "$raw")";
+    local options_glava_color="$(awk -F"$separator" '{print $2}' <<< "$raw")";
+    local disable_audio="$(awk -F"$separator" '{print $3}' <<< "$raw")";
+
+    if [ "$disable_audio" == "是" ];then disable_audio="false";
+    else disable_audio="true";
+    fi;
+
+    if [ -n "$name_line" ];then meta_name="$(awk -F"$separator" '{print $4}' <<< "$raw")";fi;
+    if [ -n "$author_line" ];then meta_author="$(awk -F"$separator" '{print $5}' <<< "$raw")";fi;
+    if [ -n "$source_line" ];then meta_source="$(awk -F"$separator" '{print $6}' <<< "$raw")";fi;
+
+    meta_name="${meta_name//\//\\/}";
+    meta_author="${meta_author//\//\\/}"
+    meta_source="${meta_source//\//\\/}"
+
+    _IniConfig_WriteOptionToFile "$_dir/config.ini" Options Color "$options_color"
+    _IniConfig_WriteOptionToFile "$_dir/config.ini" Options GlavaColor "$options_glava_color"
+    _IniConfig_WriteOptionToFile "$_dir/config.ini" Options DisableAudio "$disable_audio"
+
+    _IniConfig_WriteOptionToFile "$_dir/config.ini" MetaData Name "$meta_name"
+    _IniConfig_WriteOptionToFile "$_dir/config.ini" MetaData Author "$meta_author"
+    _IniConfig_WriteOptionToFile "$_dir/config.ini" MetaData Source "$meta_source"
+
+    if [ -z "${option_accent}" ] || [ "${option_accent}" == "default" ];then
+        option_accent=blue;
+    fi;
+
+    _Logger_Log Debug "Dir: $_dir, Accent: ${option_accent}, GlavaAccent: ${option_glava_accent}\
+    MetaName: ${meta_name}, MetaAuthor: ${meta_author}, MetaSource: ${meta_source}"
+
+    #移动一个参数
+    shift;
+    main "$(readlink -f "$_dir"/video.mp4)" "$@" | zenity --progress --auto-close --no-cancel --pulsate;
+}
+
+function markThemeAsMissing()
+{
+    local name="$1";
+    local type="$2";
+    MissingThemes="$MissingThemes ($type) - $name\n"
+}
+
+function main()
+{
+    #region 预处理
+
+    #定义是否从文件读取
+    readFromFile="0";
+
+    #定义文件完整路径
+    fullLocation="$(readlink -f "$1")";
+
+    #如果给予文件名为空并且存在配置，则从配置读取要设置的文件
+    if [ -z "$1" ] && [ -f "$HOME/.config/videoWP" ] || [ "$1" == "_" ];then
+    {
+        fullLocation="$(_IniConfig_ReadOptionFromFile "$HOME/.config/videoWP" Main LastWP)";
+        readFromFile="1";
+    };fi
+
+    #定义文件所在目录
+    dirName="$(dirname "$fullLocation")";
+
+    #endregion 预处理
+
+    #如果fullLocation是一个目录，则将dirName设置为fullLocation，fullLocation设置为目录下的mp4
+    if [ -d "$fullLocation" ];then
+        dirName="$fullLocation";
+        fullLocation="$fullLocation/video.mp4";
+    fi;
+
+    #定义背景文件
+    pngFile="";
+
+    #定义要传达给mpv的额外参数
+    extraArgs="--mute";
+    mute="unset";
+
+    #如果文件不是有效视频，则退出
+    if [ ! "$(xdg-mime query filetype "$fullLocation" | cut -d '/' -f1 )" == "video" ];then
+    {
+        zenity --error --ellipsize --text="$1不是一个有效的视频";
+        exit 1;
+    };fi;
+
+    #如果配置里包含--with-audio，则不要向mpv传达"--no-audio"
+    if [ "$2" == "--with-audio" ];then
+        extraArgs="";
+        mute="false";
+    fi;
+
+    #如果目录下不存在cover，则生成它
+    if [ ! -f "$dirName/cover.png" ];then
+        echo "#正在生成静态背景图"
+        ffmpeg -i "$fullLocation" -ss 1 -f image2 -vframes 1 "$dirName/cover.png";
+    fi;
+
+    _Logger_Log Debug "fullLocation是$fullLocation"
+
+    #如果目录下不存在thumbnail，则生成它
+    makeThumbnail "$dirName";
+
+    #设置pngFile为cover
+    pngFile="$dirName/cover.png";
+
+    if [ -n "$(pgrep mpv)" ];then
+    {
+        echo "#更新mpv播放文件"
+        echo "{ \"command\": [\"loadfile\", \"$fullLocation\" ] }" | socat - "$SOCKETPATH"
+
+        echo "#更新mpv设置"
+        disableAudio="$(_IniConfig_ReadOptionFromFile "$dirName/config.ini" Options DisableAudio)";
+        _Logger_Log Debug "DisableAudio: $disableAudio"
+        if [ -z "$disableAudio" ];then disableAudio=true;fi;
+        if [ "$mute" == "unset" ];then mute="$disableAudio";fi;
+        _Logger_Log Debug "Mute: $mute"
+        echo "{ \"command\": [\"set_property\", \"mute\", $mute] }" | socat - "$SOCKETPATH"
+        echo '{ "command": ["set_property", "pause", false] }' | socat - "$SOCKETPATH"
+    }
+    else
+    {
+        echo "#启动mpv"
+        xwinwrap -fs -fdt -ni -b -nf -un -- mpv -wid WID --loop --panscan=1.0 "$extraArgs" --hwdec=auto "$fullLocation" --no-terminal --input-ipc-server="$SOCKETPATH" >/dev/null 2>/dev/null&
+    };fi
+
+    last_glava_color="$(_IniConfig_ReadOptionFromFile "$HOME/.config/videoWP" Main GlavaColor)"
+    glava_color="$(_IniConfig_ReadOptionFromFile "$dirName/config.ini" Options GlavaColor)"
+    if [ -z "$glava_color" ];then
+    {
+        glava_color="dark"
+    };fi
+    if [ -z "$last_glava_color" ];then
+    {
+        last_glava_color="dark"
+    };fi
+
+    if [ "$last_glava_color" != "$glava_color" ];then
+        pkill glava -9;
+    fi;
+    
+    _Logger_Log Debug "Glava: '$glava_color', Last: '$last_glava_color'"
+
+    if [ -z "$(pgrep glava)" ];then
+    {
+        echo "#启用glava"
+        #glava -d >/dev/null 2>/dev/null& #--entry=sakura/rc.glsl -m sakura/bars_"$glava_color" -d >/dev/null 2>/dev/null&
+    };fi
+}
+
+file="$1";
+shift;
+
+while [[ $# -gt 0 ]]; do
+	case $1 in 
+		-q | --quiet | --un-attented)
+			shift;
+			Quiet=true;
+			;;
+		-f | --first-set)
+			shift;
+            firstSet "$file" "$@";
+            exit 0;
+			;;
+        -a | --auto-set)
+            shift;
+            meta_name="$1";
+            shift;
+            meta_author="$1";
+            shift;
+            meta_source="$1";
+            shift
+            echo "Name: $meta_name; Author: $meta_author; Source: $meta_source; File: $file";
+            firstSet "$file" "$@";
+            exit 0;
+            ;;
+		-h | --help)
+            echo "-q | --quiet | --un-attented: 静默设置主题"
+            echo "-f | --first-set: 为文件初始化设置"
+			exit 0;
+			shift;
+			;;
+        *)
+            break;
+            ;;
+	esac
+done
+
+if [ "$Quiet" == "true" ];then
+    main "$file" "$@" 2>/dev/null >/dev/null;
+else
+    main "$file" "$@" | zenity --progress --auto-close --no-cancel --pulsate;
+fi;

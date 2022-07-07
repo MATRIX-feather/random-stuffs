@@ -75,6 +75,9 @@ readonly PIDLOCKTARGET="/dev/shm/${FILEPREFIX}-lock-${APPNAME}"
 #是否自动在终端打开脚本
 readonly AUTOTERMINAL="${AUTOTERMINAL:-false}"
 
+#是否要按Enter键再退出脚本
+readonly PAUSEONEXITCALL="${PAUSEONEXITCALL:-false}"
+
 #是否为终端
 ISPIPE=false
 
@@ -100,6 +103,11 @@ function handle_term()
     on_term || die "${RET_GENERIC_FAILED}" "脚本执行on_term时出现了问题"
 
     log "再见！"
+
+    if [ "${PAUSEONEXITCALL}" == "true" ];then
+        pause
+    fi
+
     exit 0
 }
 
@@ -144,6 +152,12 @@ function log()
     unset msg
 }
 
+function pause()
+{
+    log "按Enter键继续..."
+    read -r
+}
+
 #让函数只读
 readonly -f log
 
@@ -153,6 +167,11 @@ function die()
     local reason="$2"
     local msg="${DISPLAYNAME}(${APPNAME})无法继续运行(${ret})，因为：${reason}"
     log LERRO "${msg}"
+
+    if [ "${PAUSEONEXITCALL}" == "true" ];then
+        pause
+    fi
+
     exit "${ret}" || exit 255
 }
 
