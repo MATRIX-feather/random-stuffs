@@ -53,6 +53,7 @@ esync和fsync开启时终端或日志会有提示，如：`fsync: up and running
 * [dxvk.conf](./dxvk.conf): 我的dxvk配置文件
 * [YuanShenLutrisCover.png](./YuanShenLutrisCover.png): 适用于Lutris的封面
     * 自己做的，不喜轻喷🙏
+    * 封面的XCF文件是[cover.xcf.base64](./cover.xcf.base64)，在这里打开终端然后执行`cat cover.xcf.base64 | base64 -d > 封面.xcf`即可
 * [browserfix](./browserfix/): 解决Wine原神点不开部分公告链接的问题
 * [watch_device_lost](./watch_device_lost/): 在DXVK报VK_ERROR_DEVICE_LOST时自动结束进程
     * 用launchall、closeall可以快捷启动、停止上述两个脚本
