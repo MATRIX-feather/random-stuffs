@@ -9,6 +9,7 @@
 * 01 ) [软件推荐](./02-software.md)
 * 02 ) [临时解决Dell G15 5520的显示器刷新率问题](./03-workaround-dellg15.md)
 * 03 ) [修复网易云音乐打不开](./04-fix-netease-cloud-music.md)
+* 04 ) [修复Fcitx5输入法没法在GIMP等GTK2程序上使用](./05-fix-fcitx5-no-gtk2.md)
 
 ## resources里的内容
 * [otd.json](./resources/otd.json): 我的数位板映射
