@@ -1,254 +1,378 @@
 {
-  "LastUpdate": -1,
+  "LastUpdate": -2,
   "Data":
   [
     {
       "Target": 0, //这些图不要查询歌词
+      "MatchingTitle":
+      [
+        "麟跃幽岩",
+        "quaver ♪",
+        "bells!",
+        "東方緋想天",
+        "Touhou Hisouten",
+        "Qilin's Prance",
+        "Gion2",
+        "oyasumi (Speed Up Ver.)",
+        "seal.mp4",
+        "Little Knight",
+        "Catchit (Radio Edit)",
+        "哀の隙間",
+        "Lawn Wake IV (Black)",
+        "Illusion of Inflict",
+        "Our Story",
+        "てもてもて～♪",
+        "にゃんぱすばんばん",
+        "エアーマンが倒せない (SOUND HOLIC Ver.)", //搜到的歌词是加长版
+        "闪耀的群星"
+      ],
+      "TitleMatchMode": 1,
+      "MatchingArtist": [ "" ],
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        1676335, // Title: 麟跃幽岩(Qilin's Prance) Artist: 陈致逸 @HOYO-MiX(Yu-Peng Chen @HOYO-MiX) Source: Genshin Impact
         1388906, // Title: My Love(My Love) Artist: Raphlesia & BilliumMoto(Raphlesia & BilliumMoto) Source: A Labour of Love
-        941085, // Title: Our Story(Our Story) Artist: tieff(tieff) Source: osu!
-        965730, // Title: Lawn Wake IV (Black)(Lawn Wake IV (Black)) Artist: The Flashbulb(The Flashbulb) Source: osu!
-        891366, // Title: Illusion of Inflict(Illusion of Inflict) Artist: HyuN(HyuN) Source: osu!
         847323, // Title: Bittersweet (feat. くいしんぼあかちゃん a.k.a きあと)(Bittersweet (feat. Kuishinboakachan a.k.a Kiato)) Artist: Nakanojojo(Nakanojojo) Source: osu!
         994104, // Title: Reaction feat. Slyleaf(Reaction feat. Slyleaf) Artist: James Landino(James Landino) Source: osu!
         774632, // Title: More One Night (Assertive Hardcore Bootleg) (Short Ver.)(More One Night (Assertive Hardcore Bootleg) (Short Ver.)) Artist: チト (CV: 水瀬いのり)、ユーリ (CV: 久保ユリカ)(Chito (CV: Minase Inori), Yuuri (CV: Kubo Yurika)) Source: 少女終末旅行
         328780, // Title: The Empress(The Empress) Artist: UNDEAD CORPORATION(UNDEAD CORPORATION) Source: 東方Project
         93655, // Title: dreamin' -happycore version(dreamin' -happycore version) Artist: AOiRO_Manbow with kagerow 差分 赤い人(AOiRO_Manbow with kagerow obj: Akaibito) Source: BMS
-        548096, // Title: bells!(bells!) Artist: cYsmix(cYsmix) Source: osu!
         425219, // Title: 一百块都不给我(Yi Bai Kuai Dou Bu Gei Wo) Artist: 兰梓(Lan Zi) Source: 
-        423527, // Title: quaver ♪(quaver) Artist: dj TAKA(dj TAKA) Source: REFLEC BEAT limelight
-        873811, // Title: quaver ♪(quaver) Artist: dj TAKA(dj TAKA) Source: REFLEC BEAT limelight
-        601442, // Title: にゃんぱすばんばん(Nyanpasu Bang Bang) Artist: 感想(Kansou) Source: 
-        1093626, // Title: てもてもて～♪(Temotemote~) Artist: 脚立(Kyatatsu) Source: 
         458653, // Title: 我是papi酱(I am papi-chan) Artist: 伊丽莎白鼠(Elizabeth Mouse) Source: 
         780932, // Title: A Centralized View(A Centralized View) Artist: VINXIS(VINXIS) Source: osu!
-        1019207, // Title: oyasumi (Speed Up Ver.)(oyasumi (Speed Up Ver.)) Artist: Shiggy Jr.(Shiggy Jr.) Source: 
         532417, // Title: Kaleidoscope(Kaleidoscope) Artist: Vicetone(Vicetone) Source: 
-        455069, // Title: 東方緋想天(Touhou Hisouten) Artist: あきやまうに(Akiyama Uni) Source: 東方Project
         165743, // Title: daze(daze) Artist: じん ft. メイリア from GARNiDELiA(Jin ft. MARiA from GARNiDELiA) Source: Mekakucity Actors
-        986763, // Title: 恋は渾沌の隷也 (TV Size)(Koi wa Chaos no Shimobenari (TV Size)) Artist: 後ろから這いより隊Ｇ(Ushirokara Haiyoritai G) Source: 這いよれ！ニャル子さんW
-        839864, // Title: Catchit (Radio Edit)(Catchit (Radio Edit)) Artist: S3RL(S3RL) Source: 
-        917356, // Title: Gion2 (Honkai Impact 3 Menu Theme)(Gion2 (Honkai Impact 3 Menu Theme)) Artist: HOYO-MiX(HOYO-MiX) Source: 崩坏3
         679303, // Title: にめんせい☆ウラオモテライフ！(Nimensei*Uraomote Life!) Artist: 土間うまる (CV.田中あいみ)(Doma Umaru (CV.Tanaka Aimi)) Source: 干物妹！うまるちゃんR
         325158, // Title: 海色 vs. アイのシナリオ(MIIRO vs. Ai no Scenario) Artist: AKINO from bless4 & CHiCO with HoneyWorks(AKINO from bless4 & CHiCO with HoneyWorks) Source: 
-        399575, // Title: osu! MEGAMIX(osu! MEGAMIX) Artist: MrSpazzaneve17(MrSpazzaneve17) Source: 
         1095376, // Title: Shut Up and osu! With Me (2020 ver.)(Shut Up and osu! With Me (2020 ver.)) Artist: yomegA(yomegA) Source: 
-        791845, // Title: Little Knight(Little Knight) Artist: cYsmix(cYsmix) Source: osu!
         600702, // Title: 春待ちクローバー(Harumachi Clover) Artist: 花坂結衣(CV：Ｍ・Ａ・Ｏ)(Hanasaka Yui(CV: M.A.O)) Source: OneRoom
-        386151, // Title: seal.mp4(seal.mp4) Artist: joeyclassic(joeyclassic) Source: 
+      ]
+    },
+    {
+      "Target": 1916645840,
+      "MatchingTitle": [ "ワガママで誤魔化さないで" ],
+      "MatchingArtist": [ "" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps":
+      [
+      ]
+    },
+    {
+      "Target": 407889443,
+      "MatchingTitle": [ "osu! MEGAMIX" ],
+      "MatchingArtist": [ "" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 1311345114,
+      "MatchingTitle": [ "ダダダダ天使" ],
+      "MatchingArtist": [ "" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 1321385655,
+      "MatchingTitle": [ "POP/STARS" ],
+      "MatchingArtist": [ "" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 1366516999,
+      "MatchingTitle": [ "ビートシンカー", "Beat Syncer" ],
+      "TitleMatchMode": 1,
+      "MatchingArtist": [ "DIVELA", "Miku" ],
+      "ArtistMatchMode": 1,
+      "Beatmaps":
+      [
       ]
     },
     {
       "Target": 495263006,
+      "MatchingTitle": [ " ゆいまーる☆わーるど ＴＶver.", "Yuima-ru*World TVver." ],
+      "TitleMatchMode": 1,
+      "MatchingArtist": [ "綾瀬 理恵", "Ayase Rie" ],
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        459149, // Title: ゆいまーる☆わーるど ＴＶver.(Yuima-ru*World TVver.) Artist: 綾瀬 理恵(Ayase Rie) Source: はいたい七葉
       ]
     },
     {
       "Target": 1944660978,
+      "MatchingTitle": [ "哀の隙間" ],
+      "TitleMatchMode": 1,
+      "MatchingArtist": [ "MIMI" ],
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        952409, // Title: 哀の隙間(Ai no Sukima) Artist: MIMI feat. 初音ミク(MIMI feat. Hatsune Miku) Source: 
       ]
     },
     {
       "Target": 1909939033,
+      "MatchingTitle": [ "ワガママで誤魔化さないで", "Wagamama de Gomakasanaide" ],
+      "TitleMatchMode": 1,
+      "MatchingArtist": [ " THE ORAL CIGARETTES" ],
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        932567, // Title: ワガママで誤魔化さないで(Wagamama de Gomakasanaide) Artist: THE ORAL CIGARETTES(THE ORAL CIGARETTES) Source: revisions リヴィジョンズ
       ]
     },
     {
       "Target": 520461955,
+      "MatchingTitle": [ "More One Night" ],
+      "TitleMatchMode": 1,
+      "MatchingArtist": [ "チト", "水瀬いのり", "ユーリ", "久保ユリカ" ],
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        737964, // Title: More One Night(More One Night) Artist: チト(CV：水瀬いのり)、ユーリ(CV：久保ユリカ)(Chito (CV: Minase Inori), Yuuri (CV: Kubo Yurika)) Source: 少女終末旅行
       ]
     },
     {
       "Target": 29150473,
+      "MatchingTitle": [ "Scarlet Rose" ],
+      "TitleMatchMode": 1,
+      "MatchingArtist": [ "Lily" ],
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        41686, // Title: (Scarlet Rose) Artist: (Lily) Source: seleP
       ]
     },
     {
       "Target": 1348624452,
+      "MatchingTitle": [ "メグルモノ (TV Size)", "Meguru Mono (TV Size)" ],
+      "TitleMatchMode": 1,
+      "MatchingArtist": [ "寺島拓篤", "Terashima Takuma" ],
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        931508, // Title: メグルモノ (TV Size)(Meguru Mono (TV Size)) Artist: 寺島拓篤(Terashima Takuma) Source: 転生したらスライムだった件
       ]
     },
     {
       "Target": 30830369,
+      "MatchingTitle": [ "+♂ ver れをる", "Plus Danshi ver Reol" ],
+      "MatchingArtist": [ "Reol", "れをる" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        295225, // Title: +♂ ver れをる(Plus Danshi ver Reol) Artist: れをる(Reol) Source: 
       ]
     },
     {
       "Target": 30841060,
+      "MatchingTitle": [ "chrono diver -fragment-" ],
+      "MatchingArtist": [ "猫叉Master", "三澤秋" ],
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        485962, // Title: chrono diver -fragment-(chrono diver -fragment-) Artist: 猫叉Master feat.三澤秋(Nekomata Master feat. Misawa Aki) Source: beatmania IIDX 22 PENDUAL
+      ]
+    },
+    {
+      "Target": 1314989452,
+      "MatchingTitle": [ "Brain Power Long Version" ],
+      "MatchingArtist": [ "NOMA" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps":
+      [
       ]
     },
     {
       "Target": 41672464,
+      "MatchingTitle": [ "Brain Power" ],
+      "MatchingArtist": [ "NOMA" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        357777, // Title: Brain Power(Brain Power) Artist: ノマ(NOMA) Source: SOUND VOLTEX II -infinite infection-
       ]
     },
     {
       "Target": 29247549,
+      "MatchingTitle": [ "Tear Rain" ],
+      "MatchingArtist": [ "cYsmix" ],
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        140662, // Title: Tear Rain(Tear Rain) Artist: cYsmix feat. えみぃ(cYsmix feat. Emmy) Source: Touhou
       ]
     },
     {
       "Target": 26440349,
+      "MatchingTitle": [ "トゥイー・ボックスの人形劇場 feat. 初音ミク" ],
+      "MatchingArtist": [ "sasakure.UK" ],
       "Beatmaps":
       [
-        459223, // Title: トゥイー・ボックスの人形劇場 feat. 初音ミク(Puppet Theater of Twee-Box feat. Hatsune Miku) Artist: sasakure.UK(sasakure.UK) Source: 
       ]
     },
     {
       "Target": 4887930,
+      "MatchingTitle": [ "Just Be Friends" ],
+      "MatchingArtist": [ "Megurine Luka" ],
       "Beatmaps":
       [
-        19802, // Title: (Just Be Friends) Artist: (Megurine Luka) Source: Dixie Flatline
       ]
     },
     {
       "Target": 28411547,
+      "MatchingTitle": [ "daze" ],
+      "MatchingArtist": [ "GARNiDELiA" ],
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        165743, // Title: daze(daze) Artist: じん ft. メイリア from GARNiDELiA(Jin ft. MARiA from GARNiDELiA) Source: Mekakucity Actors
       ]
     },
     {
       "Target": 473873631,
+      "MatchingTitle": [ "gravityWall" ],
+      "MatchingArtist": [ "SawanoHiroyuki", "Tielle", "Gemie" ],
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        622538, // Title: gravityWall(gravityWall) Artist: SawanoHiroyuki[nZk]: Tielle & Gemie(SawanoHiroyuki[nZk]: Tielle & Gemie) Source: Re:CREATORS
       ]
     },
     {
       "Target": 1338268156,
+      "MatchingTitle": [ "リトルソルジャー (TV Size)" ],
+      "MatchingArtist": [ "田所あずさ", "Tadokoro Azusa" ],
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        912826, // Title: リトルソルジャー (TV Size)(Little Soldier (TV Size)) Artist: 田所あずさ(Tadokoro Azusa) Source: 転生したらスライムだった件
       ]
     },
     {
       "Target": 33367339,
+      "MatchingTitle": [ "透明エレジー", "Toumei Elegy" ],
+      "MatchingArtist": [ "こぬこ", "Konuko" ],
+      "ArtistMatchMode": 1,
+      "TitleMatchMode": 1,
       "Beatmaps":
       [
-        219380, // Title: 透明エレジー(Toumei Elegy) Artist: こぬこ(Konuko) Source: 
       ]
     },
     {
       "Target": 1840603480,
+      "MatchingTitle": [ "B.B.F", "Hatsune Miku", "Kagamine Rin" ],
+      "MatchingArtist": [ "KIRA", "Heartbreaker" ],
+      "ArtistMatchMode": 1,
+      "TitleMatchMode": 1,
       "Beatmaps":
       [
-        955866, // Title: B.B.F (feat. Hatsune Miku & Kagamine Rin)(B.B.F (feat. Hatsune Miku & Kagamine Rin)) Artist: KIRA & Heartbreaker(KIRA & Heartbreaker) Source: osu!
       ]
     },
     {
       "Target": 752043,
+      "MatchingTitle": [ "魔理沙は大変なものを盗んでいきました", "Marisa wa Taihen na Mono wo Nusunde Ikimashita" ],
+      "MatchingArtist": [ "IOSYS" ],
       "Beatmaps":
       [
-        710630, // Title: 魔理沙は大変なものを盗んでいきました(Marisa wa Taihen na Mono wo Nusunde Ikimashita) Artist: IOSYS(IOSYS) Source: 東方乙女囃子
       ]
     },
     {
       "Target": 502455381,
+      "MatchingTitle": [ "アンノウン・マザーグース feat. 初音ミク", "Unknown Mother-Goose feat. Hatsune Miku" ],
+      "MatchingArtist": [ "wowaka" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        658008, // Title: アンノウン・マザーグース feat. 初音ミク(Unknown Mother-Goose feat. Hatsune Miku) Artist: wowaka(wowaka) Source: 
       ]
     },
     {
       "Target": 35618991,
+      "MatchingTitle": [ "Der Wald (kors k Remix)" ],
+      "MatchingArtist": [ "エレハモニカ" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        581787, // Title: Der Wald (kors k Remix)(Der Wald (kors k Remix)) Artist: エレハモニカ remixed by kors k(Eleharmonica remixed by kors k) Source: pop'n music 20 fantasia
-        537048, // Title: Der Wald (Kors K Remix)(Der Wald (Kors K Remix)) Artist: エレハモニカ remixed by kors k(Erehamonika remixed by kors k) Source: pop'n music 20 fantasia
       ]
     },
     {
       "Target": 36921382,
+      "MatchingTitle": [ "Take a Hint feat. Victoria Justice & Elizabeth Gillies (Speed Up Ver.)" ],
+      "MatchingArtist": [ "Victorious Cast" ],
       "Beatmaps":
       [
-        984684, // Title: Take a Hint feat. Victoria Justice & Elizabeth Gillies (Speed Up Ver.)(Take a Hint feat. Victoria Justice & Elizabeth Gillies (Speed Up Ver.)) Artist: Victorious Cast(Victorious Cast) Source: Victorious
-      ]
-    },
-    {
-      "Target": 26431736,
-      "Beatmaps":
-      [
-        425219, // Title: 一百块都不给我(Yi Bai Kuai Dou Bu Gei Wo) Artist: 兰梓(Lan Zi) Source: 
       ]
     },
     {
       "Target": 536622304,
+      "MatchingTitle": [ "Lemon" ],
+      "MatchingArtist": [ "米津玄師", "Yonezu Kenshi" ],
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        861466, // Title: Lemon(Lemon) Artist: 米津玄師(Yonezu Kenshi) Source: アンナチュラル
       ]
     },
     {
       "Target": 22716988,
+      "MatchingTitle": [ "夢現", "Yumeutsutsu" ],
+      "MatchingArtist": [ "森永真由美", "Another Infinity" ],
+      "ArtistMatchMode": 1,
+      "TitleMatchMode": 1,
       "Beatmaps":
       [
-        96661, // Title: 夢現(Yumeutsutsu) Artist: Another Infinity feat. 森永真由美(Another Infinity feat. Mayumi Morinaga) Source: jubeat
       ]
     },
     {
       "Target": 1808112352,
+      "MatchingTitle": [ "エフピーエス", "FPS" ],
+      "MatchingArtist": [ "そらまふうらさか", "SoraMafuUraSaka" ],
+      "ArtistMatchMode": 1,
+      "TitleMatchMode": 1,
       "Beatmaps":
       [
-        881581, // Title: エフピーエス(FPS) Artist: そらまふうらさか feat. 荒野行動(SoraMafuUraSaka feat. Knives Out) Source: 
       ]
     },
     {
       "Target": 29034567,
+      "MatchingTitle": [ "B.B.K.K.B.K.K" ],
+      "MatchingArtist": [ "nora2r" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        153920, // Title: B.B.K.K.B.K.K(B.B.K.K.B.K.K) Artist: nora2r(nora2r) Source: BMS
       ]
     },
     {
       "Target": 28688417,
+      "MatchingTitle": [ "Cold Green Eyes" ],
+      "MatchingArtist": [ "Station Earth" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        371128, // Title: Cold Green Eyes ft. Roos Denayer(Cold Green Eyes ft. Roos Denayer) Artist: Station Earth(Station Earth) Source: 
       ]
     },
     {
       "Target": 1317410789,
+      "MatchingTitle": [ "Nameless Story (TV Size)" ],
+      "MatchingArtist": [ "寺島拓篤", "Terashima Takuma" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        872538, // Title: Nameless Story (TV Size)(Nameless Story (TV Size)) Artist: 寺島拓篤(Terashima Takuma) Source: 転生したらスライムだった件
       ]
     },
     {
       "Target": 27488656,
+      "MatchingTitle": [ "恋のEveryDay☆HappyDay" ],
+      "MatchingArtist": [ "" ],
+      "ArtistMatchMode": 1,
       "Beatmaps":
       [
-        756386, // Title: 恋のEveryDay☆HappyDay(Koi no EveryDay*HappyDay) Artist: 五河琴里 (CV: 竹達彩奈)(Itsuka Kotori (CV: Taketatsu Ayana)) Source: デート・ア・ライブ
       ]
     },
     {
         "Target": 474567613,
+        "MatchingTitle": [ "ヒトリゴト -TV MIX-", "Hitorigoto -TV MIX-" ],
+        "MatchingArtist": [ "ClariS" ],
         "Beatmaps":
         [
-          596704, // Title: ヒトリゴト -TV MIX-(Hitorigoto -TV MIX-) Artist: ClariS(ClariS) Source: エロマンガ先生
         ]
     }
   ]
