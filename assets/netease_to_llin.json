@@ -45,7 +45,21 @@
         679303, // Title: にめんせい☆ウラオモテライフ！(Nimensei*Uraomote Life!) Artist: 土間うまる (CV.田中あいみ)(Doma Umaru (CV.Tanaka Aimi)) Source: 干物妹！うまるちゃんR
         325158, // Title: 海色 vs. アイのシナリオ(MIIRO vs. Ai no Scenario) Artist: AKINO from bless4 & CHiCO with HoneyWorks(AKINO from bless4 & CHiCO with HoneyWorks) Source: 
         1095376, // Title: Shut Up and osu! With Me (2020 ver.)(Shut Up and osu! With Me (2020 ver.)) Artist: yomegA(yomegA) Source: 
-        600702, // Title: 春待ちクローバー(Harumachi Clover) Artist: 花坂結衣(CV：Ｍ・Ａ・Ｏ)(Hanasaka Yui(CV: M.A.O)) Source: OneRoom
+        600702 // Title: 春待ちクローバー(Harumachi Clover) Artist: 花坂結衣(CV：Ｍ・Ａ・Ｏ)(Hanasaka Yui(CV: M.A.O)) Source: OneRoom
+      ]
+    },
+    {
+      "Target": 744881,
+      "MatchingTitle":
+      [
+        "Deconstruction Star",
+        "プレインエイジア"
+      ],
+      "MatchingArtist": [ "Halozy" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps":
+      [
       ]
     },
     {
