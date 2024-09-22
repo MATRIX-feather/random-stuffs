@@ -602,8 +602,8 @@
     },
     {
       "Target": 2095520508,
-      "MatchingTitle": ["華爛漫 -Flowers-", "Hana Ranman -Flowers-"],
-      "MatchingArtist": ["TERRA"],
+      "MatchingTitle": [ "華爛漫 -Flowers-", "Hana Ranman -Flowers-" ],
+      "MatchingArtist": [ "TËЯRA","TERRA" ],
       "TitleMatchMode": 1,
       "ArtistMatchMode": 1,
       "Beatmaps":
@@ -767,9 +767,65 @@
       "Beatmaps":[]
     },
     {
+      "Target": 28468258,
+      "MatchingTitle": [ "かくしごと", "Kakushigoto" ],
+      "MatchingArtist": [ "ゆいこんぬ", "yuikonnu" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps":[]
+    },
+    {
+      "Target": 479764076,
+      "MatchingTitle": [ "キミとボクノ世界 (feat. ＊なみりん)", "Kimi to Boku no Sekai (feat. *namirin)" ],
+      "MatchingArtist": [ "ミツキヨ", "Mitsukiyo" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps":[]
+    },
+    {
       "Target": 482633580,
       "MatchingTitle": [ "茜さす (TV size)", "Akane Sasu (TV size)" ],
       "MatchingArtist": [ "Aimer" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps":[]
+    },
+    {
+      "Target": 1388185341,
+      "MatchingTitle": [ "雲雀 (TV Size)", "Hibari (TV Size)" ],
+      "MatchingArtist": [ "ASCA" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps":[]
+    },
+    {
+      "Target": 26432098,
+      "MatchingTitle": [ "放課後ストライド", "Houkago Stride" ],
+      "MatchingArtist": [ "鹿乃", "Kano" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps":[]
+    },
+    {
+      "Target": 28684050,
+      "MatchingTitle": [ "and I'm home" ],
+      "MatchingArtist": [ "美樹さやか（CV：喜多村英梨）、佐倉杏子（CV：野中藍）", "Miki Sayaka (CV: Kitamura Eri), Sakura Kyoko (CV: Nonaka Ai)" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps":[]
+    },
+    {
+      "Target": 2025076409,
+      "MatchingTitle": [ "Why Do I (feat. Hatsune Miku)" ],
+      "MatchingArtist": [ "Set It Off" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps":[]
+    },
+    {
+      "Target": 744914, // 48秒延迟总比没有好？
+      "MatchingTitle": [ "感傷の摩天楼", "Kanshou no Matenrou" ],
+      "MatchingArtist": [ "Halozy" ],
       "TitleMatchMode": 1,
       "ArtistMatchMode": 1,
       "Beatmaps":[]
