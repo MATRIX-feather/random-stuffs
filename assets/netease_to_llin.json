@@ -423,8 +423,8 @@
     },
     {
       "Target": 22808879,
-      "MatchingTitle": [ "鬼哭慟哭地獄楽" ],
-      "MatchingArtist": [ "Kikoku Doukoku Jigokuraku" ],
+      "MatchingTitle": [ "鬼哭慟哭地獄楽", "Kikoku Doukoku Jigokuraku" ],
+      "MatchingArtist": [ "Halozy" ],
       "TitleMatchMode": 1,
       "ArtistMatchMode": 1,
       "Beatmaps": []
@@ -821,6 +821,30 @@
       "TitleMatchMode": 1,
       "ArtistMatchMode": 1,
       "Beatmaps":[]
+    },
+    {
+      "Target": 745794,
+      "MatchingTitle": [ "Sei Natsu" ],
+      "MatchingArtist": [ "Ranko" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps":[]
+    },
+    {
+      "Target": 1435567089,
+      "MatchingTitle": [ "Burnt Rice (feat. YUNG GEMMY)" ],
+      "MatchingArtist": [ "Shawn Wasabi + YDG" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 29343309,
+      "MatchingTitle": [ "バナナフィッシュの浜辺と黒い虹 with Aimer", "Banana Fish no Hamabe to Kuroi Niji with Aimer" ],
+      "MatchingArtist": [ "Galileo Galilei" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
     },
     {
       "Target": 744914, // 48秒延迟总比没有好？
