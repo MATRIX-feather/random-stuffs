@@ -269,8 +269,8 @@
     },
     {
       "Target": 1840603480,
-      "MatchingTitle": [ "B.B.F", "Hatsune Miku", "Kagamine Rin" ],
-      "MatchingArtist": [ "KIRA", "Heartbreaker" ],
+      "MatchingTitle": [ "B.B.F (feat. Hatsune Miku & Kagamine Rin)" ],
+      "MatchingArtist": [ "KIRA & Heartbreaker" ],
       "ArtistMatchMode": 1,
       "TitleMatchMode": 1,
       "Beatmaps":
@@ -314,15 +314,6 @@
       ]
     },
     {
-      "Target": 536622304,
-      "MatchingTitle": [ "Lemon" ],
-      "MatchingArtist": [ "米津玄師", "Yonezu Kenshi" ],
-      "ArtistMatchMode": 1,
-      "Beatmaps":
-      [
-      ]
-    },
-    {
       "Target": 22716988,
       "MatchingTitle": [ "夢現", "Yumeutsutsu" ],
       "MatchingArtist": [ "森永真由美", "Another Infinity" ],
@@ -354,7 +345,7 @@
     },
     {
       "Target": 28688417,
-      "MatchingTitle": [ "Cold Green Eyes" ],
+      "MatchingTitle": [ "Cold Green Eyes ft. Roos Denayer" ],
       "MatchingArtist": [ "Station Earth" ],
       "TitleMatchMode": 1,
       "ArtistMatchMode": 1,
@@ -377,17 +368,13 @@
       "MatchingTitle": [ "恋のEveryDay☆HappyDay" ],
       "MatchingArtist": [ "" ],
       "ArtistMatchMode": 1,
-      "Beatmaps":
-      [
-      ]
+      "Beatmaps": []
     },
     {
-        "Target": 474567613,
-        "MatchingTitle": [ "ヒトリゴト -TV MIX-", "Hitorigoto -TV MIX-" ],
-        "MatchingArtist": [ "ClariS" ],
-        "Beatmaps":
-        [
-        ]
+      "Target": 474567613,
+      "MatchingTitle": [ "ヒトリゴト -TV MIX-", "Hitorigoto -TV MIX-" ],
+      "MatchingArtist": [ "ClariS" ],
+      "Beatmaps": []
     },
     {
       "Target": 17706562,
@@ -449,14 +436,6 @@
       "Target": 494858440,
       "MatchingTitle": [ "magic drive!" ],
       "MatchingArtist": [ "solfa feat. 大島はるな", "solfa feat. Oshima Haruna" ],
-      "TitleMatchMode": 1,
-      "ArtistMatchMode": 1,
-      "Beatmaps": []
-    },
-    {
-      "Target": 20461941,
-      "MatchingTitle": [ "I AM" ],
-      "MatchingArtist": [ "Theocracy" ],
       "TitleMatchMode": 1,
       "ArtistMatchMode": 1,
       "Beatmaps": []
@@ -586,8 +565,8 @@
     },
     {
       "Target": 541480237,
-      "MatchingTitle": [ "ドラえもん" ],
-      "MatchingArtist": [ "DORAEMON" ],
+      "MatchingTitle": [ "ドラえもん", "DORAEMON" ],
+      "MatchingArtist": [ "天月", "Amatsuki" ],
       "TitleMatchMode": 1,
       "ArtistMatchMode": 1,
       "Beatmaps":[]
@@ -671,14 +650,6 @@
       "Target": 34528298,
       "MatchingTitle": [ "月燈籠", "Tsukitourou" ],
       "MatchingArtist": [ "かめりあ feat. ななひら", "Camellia feat. Nanahira" ],
-      "TitleMatchMode": 1,
-      "ArtistMatchMode": 1,
-      "Beatmaps":[]
-    },
-    {
-      "Target": 1375753706,
-      "MatchingTitle": [ "veil" ],
-      "MatchingArtist": [ "須田景凪", "Suda Keina" ],
       "TitleMatchMode": 1,
       "ArtistMatchMode": 1,
       "Beatmaps":[]
