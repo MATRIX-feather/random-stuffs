@@ -834,6 +834,38 @@
       "Beatmaps": []
     },
     {
+      "Target": 0,
+      "MatchingTitle": [],
+      "MatchingArtist": [ "Will Stetson" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 1950496452,
+      "MatchingTitle": [ "Rainy Boots" ],
+      "MatchingArtist": [ "Will Stetson" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 1950496450,
+      "MatchingTitle": [ "Lagtrain" ],
+      "MatchingArtist": [ "Will Stetson" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 1928199723,
+      "MatchingTitle": [ "phony" ],
+      "MatchingArtist": [ "Will Stetson" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
       "Target": 423406308,
       "MatchingTitle": [ "Flamingo (WTN3 Remix)" ],
       "MatchingArtist": [ "Kero Kero Bonito" ],
