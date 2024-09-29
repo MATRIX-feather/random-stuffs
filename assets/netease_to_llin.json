@@ -858,6 +858,22 @@
       "Beatmaps": []
     },
     {
+      "Target": 2076312515,
+      "MatchingTitle": [ "KOALA" ],
+      "MatchingArtist": [ "Will Stetson" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 0,
+      "Beatmaps": []
+    },
+    {
+      "Target": 2076314649,
+      "MatchingTitle": [ "コアラ", "KOALA" ],
+      "MatchingArtist": [ "Will Stetson feat. VY1" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
       "Target": 1928199723,
       "MatchingTitle": [ "phony" ],
       "MatchingArtist": [ "Will Stetson" ],
