@@ -818,6 +818,54 @@
       "Beatmaps": []
     },
     {
+      "Target": 1939395037,
+      "MatchingTitle": [ "螺旋", "Rasen" ],
+      "MatchingArtist": [ "Nowlu" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 22808847,
+      "MatchingTitle": [ "Paranoid Lost" ],
+      "MatchingArtist": [ "Halozy" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 423406308,
+      "MatchingTitle": [ "Flamingo (WTN3 Remix)" ],
+      "MatchingArtist": [ "Kero Kero Bonito" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 528271138,
+      "MatchingTitle": [ "Party in the HOLLOWood feat. ななひら", "Party in the HOLLOWood feat. Nanahira" ],
+      "MatchingArtist": [ "t+pazolite" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 33937480,
+      "MatchingTitle": [ "リモコン", "Remote Control" ],
+      "MatchingArtist": [ "kradness＆れをる", "kradness&Reol", "祭屋", "Saiya" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 1875436617,
+      "MatchingTitle": [ "きゅうくらりん", "Kyu-kurarin" ],
+      "MatchingArtist": [ "いよわ feat. 可不", "Iyowa feat. KAFU" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
       "Target": 744914, // 48秒延迟总比没有好？
       "MatchingTitle": [ "感傷の摩天楼", "Kanshou no Matenrou" ],
       "MatchingArtist": [ "Halozy" ],
