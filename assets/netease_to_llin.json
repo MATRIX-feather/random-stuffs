@@ -269,8 +269,8 @@
     },
     {
       "Target": 1840603480,
-      "MatchingTitle": [ "B.B.F", "Hatsune Miku", "Kagamine Rin" ],
-      "MatchingArtist": [ "KIRA", "Heartbreaker" ],
+      "MatchingTitle": [ "B.B.F (feat. Hatsune Miku & Kagamine Rin)" ],
+      "MatchingArtist": [ "KIRA & Heartbreaker" ],
       "ArtistMatchMode": 1,
       "TitleMatchMode": 1,
       "Beatmaps":
@@ -314,15 +314,6 @@
       ]
     },
     {
-      "Target": 536622304,
-      "MatchingTitle": [ "Lemon" ],
-      "MatchingArtist": [ "米津玄師", "Yonezu Kenshi" ],
-      "ArtistMatchMode": 1,
-      "Beatmaps":
-      [
-      ]
-    },
-    {
       "Target": 22716988,
       "MatchingTitle": [ "夢現", "Yumeutsutsu" ],
       "MatchingArtist": [ "森永真由美", "Another Infinity" ],
@@ -354,7 +345,7 @@
     },
     {
       "Target": 28688417,
-      "MatchingTitle": [ "Cold Green Eyes" ],
+      "MatchingTitle": [ "Cold Green Eyes ft. Roos Denayer" ],
       "MatchingArtist": [ "Station Earth" ],
       "TitleMatchMode": 1,
       "ArtistMatchMode": 1,
@@ -377,17 +368,13 @@
       "MatchingTitle": [ "恋のEveryDay☆HappyDay" ],
       "MatchingArtist": [ "" ],
       "ArtistMatchMode": 1,
-      "Beatmaps":
-      [
-      ]
+      "Beatmaps": []
     },
     {
-        "Target": 474567613,
-        "MatchingTitle": [ "ヒトリゴト -TV MIX-", "Hitorigoto -TV MIX-" ],
-        "MatchingArtist": [ "ClariS" ],
-        "Beatmaps":
-        [
-        ]
+      "Target": 474567613,
+      "MatchingTitle": [ "ヒトリゴト -TV MIX-", "Hitorigoto -TV MIX-" ],
+      "MatchingArtist": [ "ClariS" ],
+      "Beatmaps": []
     },
     {
       "Target": 17706562,
@@ -423,8 +410,8 @@
     },
     {
       "Target": 22808879,
-      "MatchingTitle": [ "鬼哭慟哭地獄楽" ],
-      "MatchingArtist": [ "Kikoku Doukoku Jigokuraku" ],
+      "MatchingTitle": [ "鬼哭慟哭地獄楽", "Kikoku Doukoku Jigokuraku" ],
+      "MatchingArtist": [ "Halozy" ],
       "TitleMatchMode": 1,
       "ArtistMatchMode": 1,
       "Beatmaps": []
@@ -449,14 +436,6 @@
       "Target": 494858440,
       "MatchingTitle": [ "magic drive!" ],
       "MatchingArtist": [ "solfa feat. 大島はるな", "solfa feat. Oshima Haruna" ],
-      "TitleMatchMode": 1,
-      "ArtistMatchMode": 1,
-      "Beatmaps": []
-    },
-    {
-      "Target": 20461941,
-      "MatchingTitle": [ "I AM" ],
-      "MatchingArtist": [ "Theocracy" ],
       "TitleMatchMode": 1,
       "ArtistMatchMode": 1,
       "Beatmaps": []
@@ -586,8 +565,8 @@
     },
     {
       "Target": 541480237,
-      "MatchingTitle": [ "ドラえもん" ],
-      "MatchingArtist": [ "DORAEMON" ],
+      "MatchingTitle": [ "ドラえもん", "DORAEMON" ],
+      "MatchingArtist": [ "天月", "Amatsuki" ],
       "TitleMatchMode": 1,
       "ArtistMatchMode": 1,
       "Beatmaps":[]
@@ -671,14 +650,6 @@
       "Target": 34528298,
       "MatchingTitle": [ "月燈籠", "Tsukitourou" ],
       "MatchingArtist": [ "かめりあ feat. ななひら", "Camellia feat. Nanahira" ],
-      "TitleMatchMode": 1,
-      "ArtistMatchMode": 1,
-      "Beatmaps":[]
-    },
-    {
-      "Target": 1375753706,
-      "MatchingTitle": [ "veil" ],
-      "MatchingArtist": [ "須田景凪", "Suda Keina" ],
       "TitleMatchMode": 1,
       "ArtistMatchMode": 1,
       "Beatmaps":[]
@@ -821,6 +792,126 @@
       "TitleMatchMode": 1,
       "ArtistMatchMode": 1,
       "Beatmaps":[]
+    },
+    {
+      "Target": 745794,
+      "MatchingTitle": [ "Sei Natsu" ],
+      "MatchingArtist": [ "Ranko" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps":[]
+    },
+    {
+      "Target": 1435567089,
+      "MatchingTitle": [ "Burnt Rice (feat. YUNG GEMMY)" ],
+      "MatchingArtist": [ "Shawn Wasabi + YDG" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 29343309,
+      "MatchingTitle": [ "バナナフィッシュの浜辺と黒い虹 with Aimer", "Banana Fish no Hamabe to Kuroi Niji with Aimer" ],
+      "MatchingArtist": [ "Galileo Galilei" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 1939395037,
+      "MatchingTitle": [ "螺旋", "Rasen" ],
+      "MatchingArtist": [ "Nowlu" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 22808847,
+      "MatchingTitle": [ "Paranoid Lost" ],
+      "MatchingArtist": [ "Halozy" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 0,
+      "MatchingTitle": [],
+      "MatchingArtist": [ "Will Stetson" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 1950496452,
+      "MatchingTitle": [ "Rainy Boots" ],
+      "MatchingArtist": [ "Will Stetson" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 1950496450,
+      "MatchingTitle": [ "Lagtrain" ],
+      "MatchingArtist": [ "Will Stetson" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 2076312515,
+      "MatchingTitle": [ "KOALA" ],
+      "MatchingArtist": [ "Will Stetson" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 0,
+      "Beatmaps": []
+    },
+    {
+      "Target": 2076314649,
+      "MatchingTitle": [ "コアラ", "KOALA" ],
+      "MatchingArtist": [ "Will Stetson feat. VY1" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 1928199723,
+      "MatchingTitle": [ "phony" ],
+      "MatchingArtist": [ "Will Stetson" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 423406308,
+      "MatchingTitle": [ "Flamingo (WTN3 Remix)" ],
+      "MatchingArtist": [ "Kero Kero Bonito" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 528271138,
+      "MatchingTitle": [ "Party in the HOLLOWood feat. ななひら", "Party in the HOLLOWood feat. Nanahira" ],
+      "MatchingArtist": [ "t+pazolite" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 33937480,
+      "MatchingTitle": [ "リモコン", "Remote Control" ],
+      "MatchingArtist": [ "kradness＆れをる", "kradness&Reol", "祭屋", "Saiya" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 1875436617,
+      "MatchingTitle": [ "きゅうくらりん", "Kyu-kurarin" ],
+      "MatchingArtist": [ "いよわ feat. 可不", "Iyowa feat. KAFU" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
     },
     {
       "Target": 744914, // 48秒延迟总比没有好？
