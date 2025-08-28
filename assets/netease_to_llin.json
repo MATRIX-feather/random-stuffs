@@ -24,7 +24,8 @@
         "てもてもて～♪",
         "にゃんぱすばんばん",
         "エアーマンが倒せない (SOUND HOLIC Ver.)", //搜到的歌词是加长版
-        "闪耀的群星"
+        "闪耀的群星",
+        "夏恋 feat Rhyzz&Bell&Jas Mace (The 49ers)"
       ],
       "TitleMatchMode": 1,
       "MatchingArtist": [ "" ],
@@ -45,7 +46,8 @@
         679303, // Title: にめんせい☆ウラオモテライフ！(Nimensei*Uraomote Life!) Artist: 土間うまる (CV.田中あいみ)(Doma Umaru (CV.Tanaka Aimi)) Source: 干物妹！うまるちゃんR
         325158, // Title: 海色 vs. アイのシナリオ(MIIRO vs. Ai no Scenario) Artist: AKINO from bless4 & CHiCO with HoneyWorks(AKINO from bless4 & CHiCO with HoneyWorks) Source: 
         1095376, // Title: Shut Up and osu! With Me (2020 ver.)(Shut Up and osu! With Me (2020 ver.)) Artist: yomegA(yomegA) Source: 
-        600702 // Title: 春待ちクローバー(Harumachi Clover) Artist: 花坂結衣(CV：Ｍ・Ａ・Ｏ)(Hanasaka Yui(CV: M.A.O)) Source: OneRoom
+        600702, // Title: 春待ちクローバー(Harumachi Clover) Artist: 花坂結衣(CV：Ｍ・Ａ・Ｏ)(Hanasaka Yui(CV: M.A.O)) Source: OneRoom
+        793868 // Title: 'stay with me'('stay with me') Artist: 'AcesToAces'('AcesToAces') Source: ''
       ]
     },
     {
@@ -920,6 +922,70 @@
       "TitleMatchMode": 1,
       "ArtistMatchMode": 1,
       "Beatmaps":[]
+    },
+    {
+      "Target": 2623235396,
+      "MatchingTitle": [ "ながいよる", "Nagai Yoru" ],
+      "MatchingArtist": [ "身のまわりの電磁界について", "Minomawari no Denjikai ni Tsuite" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 2034848078,
+      "MatchingTitle": [ "ふわり", "Fuwari" ],
+      "MatchingArtist": [ "Hanon × Kotoha" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 867258,
+      "MatchingTitle": [ "Mischievous of Alice" ],
+      "MatchingArtist": [ "妖精帝國", "Yousei Teikoku" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 729528,
+      "MatchingTitle": [ "Runway Drive" ],
+      "MatchingArtist": [ "FELT" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 2672821088,
+      "MatchingTitle": [ "デウス・エクス・マキナ", "Deus Ex Machina" ],
+      "MatchingArtist": [ "iojjj" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 29823095,
+      "MatchingTitle": [ "絶対特権主張しますっ！ 星輝子ソロ・リミックス", "Zettai Tokken Shuchou Shimasu! Hoshi Syoko Solo Remix" ],
+      "MatchingArtist": [ "星輝子(CV:松田颯水)", "Syoko Hoshi (CV: Satsumi Matsuda)" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 554245891,
+      "MatchingTitle": [ "Vitamins feat. world's end girlfriend" ],
+      "MatchingArtist": [ "Mili" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
+    },
+    {
+      "Target": 579853,
+      "MatchingTitle": [ "口笛ジェット", "Kuchibue Jietto" ],
+      "MatchingArtist": [ "花澤香菜", "Hanazawa Kana" ],
+      "TitleMatchMode": 1,
+      "ArtistMatchMode": 1,
+      "Beatmaps": []
     }
   ]
 }
